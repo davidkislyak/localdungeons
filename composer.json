@@ -1,0 +1,16 @@
+{
+  "name": "davidgr1/328/localdungeons",
+  "authors": [
+    {
+      "name": "David Kislyak",
+      "email": "dkislyak@mail.greenriver.edu"
+    },
+    {
+      "name": "Brian Kiehn",
+      "email": "bkiehn@mail.greenriver.edu"
+    }
+  ],
+  "require": {
+    "bcosca/fatfree-core": "dev-master"
+  }
+}
