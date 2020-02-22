@@ -12,9 +12,10 @@
 
 class dnd extends generic
 {
-    public function __construct($_name, $_host, $_gameName, $_genre, $_date, $_time, $_location, $_keywords = array(),
+    public function __construct($_name, $_host, $_date, $_time, $_location,  $_genre = 'fantasy', $_keywords = array(),
                                 $_capacity = '50', $_repeat = false, $_edition = '5th')
     {
+        $_gameName = 'Dungeons & Dragons';
         $_type = 'RPG';
         parent::__construct($_name, $_host, $_gameName, $_genre, $_date, $_time, $_location, $_type, $_keywords,
             $_capacity, $_repeat, $_edition);
