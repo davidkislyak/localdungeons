@@ -11,7 +11,13 @@ class LocalDungeonController
 
     public function home()
     {
-        echo "<h1>My local events</h1>";
-        echo "<a href = 'events'>Find events near me</a>";
+        $view = new Template();
+        echo $view->render('views/home.html');
+    }
+
+    public function events()
+    {
+        $view = new Template();
+        echo $view->render('views/events.html');
     }
 }
