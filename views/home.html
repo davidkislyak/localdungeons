@@ -37,14 +37,18 @@
 
     <div class="jumbotron jumbotron-fluid rounded">
         <div class="container text-center">
-<!--            <h1 class="display-4">Local Dungeons</h1>-->
+            <!--            <h1 class="display-4">Local Dungeons</h1>-->
             <img src="./images/large_blue_80s_action_logo.png" height="25%" width="75%" alt="Local Dungeons logo"/>
             <h2 class="pt-3">Find your next game faster.</h2>
         </div>
     </div>
 
     <div class="input-group container mb-3">
-        <input type="text" class="form-control" placeholder="Game: name, keyword, genre" aria-label="Find a game">
+        <h3 class="pr-3 form-check-label">Search Games</h3>
+        <input type="text" class="form-control rounded mr-3" placeholder="name, keyword, genre"
+               aria-label="Find a game" value="dnd 5e">
+        <input type="text" class="form-control rounded mr-3" placeholder="city, state, or zip"
+               aria-label="Find a city" value="auburn">
         <div class="input-group-append">
             <button class="btn btn-primary rounded" type="button" id="search-button">Search</button>
         </div>

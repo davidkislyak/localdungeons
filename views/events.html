@@ -39,8 +39,10 @@
     <div class="container">
         <div class="input-group container mr-3 mt-3 mb-4">
             <h3 class="pr-3 form-check-label">Search Games</h3>
-            <input type="text" class="form-control rounded" placeholder="name, keyword, genre" aria-label="Find a game"
-                   value="dnd 5e">
+            <input type="text" class="form-control rounded mr-3" placeholder="name, keyword, genre"
+                   aria-label="Find a game" value="dnd 5e">
+            <input type="text" class="form-control rounded mr-3" placeholder="city, state, or zip"
+                   aria-label="Find a city" value="auburn">
             <div class="input-group-append">
                 <button class="btn btn-primary rounded" type="button" id="search-button">Search</button>
             </div>
@@ -48,16 +50,6 @@
         <div class="row">
             <div class="col-3 border-right">
                 <div class="form-group mb-3">
-                    <label for="locationRange">Located Within</label>
-                    <select class="form-control mb-3" id="locationRange">
-                        <option value="none">Select a range</option>
-                        <option value="5">5 Miles</option>
-                        <option value="10" selected>10 Miles</option>
-                        <option value="20">20 Miles</option>
-                        <option value="50">50 Miles</option>
-                        <option value="any">World Wide</option>
-                    </select>
-
                     <label for="gameType">Game</label>
                     <select class="form-control" id="gameType">
                         <option value="none">Select a game</option>
@@ -67,7 +59,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="genre">Tags</label>
+                    <label for="genre">Genre</label>
                     <div class="border rounded">
                         <select class="form-control" id="genre">
                             <option value="none">Select a genre</option>
@@ -75,25 +67,6 @@
                             <option value="medieval">Medieval</option>
                             <option value="retro">Retro</option>
                         </select>
-                        <div class="form-check ml-3">
-                            <input class="form-check-input" type="checkbox" value="matrix" id="matrixTag" checked>
-                            <label class="form-check-label" for="matrixTag">
-                                Matrix
-                            </label>
-                        </div>
-                        <div class="form-check ml-3">
-                            <input class="form-check-input" type="checkbox" value="net runner" id="net runnerTag">
-                            <label class="form-check-label" for="net runnerTag">
-                                Net Runner
-                            </label>
-                        </div>
-                        <div class="form-check ml-3">
-                            <input class="form-check-input" type="checkbox" value="ghost in the shell"
-                                   id="ghost in the shellTag">
-                            <label class="form-check-label" for="ghost in the shellTag">
-                                Ghost in the shell
-                            </label>
-                        </div>
                     </div>
                     <br>
                     <button class="btn btn-primary rounded w-100" type="button" id="filter-button">Filter</button>
@@ -101,7 +74,7 @@
             </div>
             <div class="col-9">
                 <div class="container text-center" id="search-head">
-                    <h1>dnd 5e Games</h1>
+                    <h1>dnd 5e games</h1>
                     <p>3 of 6 Games</p>
                 </div>
                 <div class="container mb-5">
@@ -125,7 +98,7 @@
                     <a href="./event/2183880"><h3><u>DnD Happy Hour Party</u> - 02/22/20</h3></a>
                     <div class="form-inline">
                         <p class="pr-3 border-right">98030</p>
-                        <p class="pr-3 pl-3 border-right">Kent</p>
+                        <p class="pr-3 pl-3 border-right">Auburn</p>
                         <p class="pr-3 pl-3">Posted 1 hour ago</p>
                     </div>
                     <p>Drink and play at our weekend dnd night! We will have a good time slaying dragons, having
@@ -141,7 +114,7 @@
                     <a href="./event/6977898"><h3><u>DnD with Critical Role ft. The Rock</u> - 04/20/20</h3></a>
                     <div class="form-inline">
                         <p class="pr-3 border-right">98101</p>
-                        <p class="pr-3 pl-3 border-right">Seattle</p>
+                        <p class="pr-3 pl-3 border-right">Auburn</p>
                         <p class="pr-3 pl-3">Posted 1 week ago</p>
                     </div>
                     <p>Do you have what it takes to join the Critical Role party? Signup today and get a chance to
@@ -166,17 +139,17 @@
             </div>
         </div>
     </div>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"></script>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
 </body>
 </html>

@@ -27,5 +27,10 @@ $f3->route('GET /events', function () {
     $GLOBALS['controller']->events();
 });
 
+//define the events route
+$f3->route('GET /login', function () {
+    $GLOBALS['controller']->login();
+});
+
 //run fat free
 $f3->run();
