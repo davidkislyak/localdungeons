@@ -26,4 +26,10 @@ class LocalDungeonController
         $view = new Template();
         echo $view->render('views/login.html');
     }
+
+    public function event($event_id)
+    {
+        $view = new Template();
+        echo $view->render('views/event.html');
+    }
 }
