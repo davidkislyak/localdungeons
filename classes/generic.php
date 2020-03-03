@@ -10,7 +10,7 @@
  */
 
 
-class generic extends gameEvent
+class generic
 {
     private $_name;
     private $_gameName;
@@ -29,14 +29,17 @@ class generic extends gameEvent
     /**
      * gameEvent constructor.
      * @param $_name
+     * @param $_gameName
      * @param $_host
      * @param $_date
      * @param $_time
      * @param $_location
-     * @param $_type
-     * @param $_keywords
-     * @param $_capacity
-     * @param $_repeat
+     * @param $_genre
+     * @param string $_edition
+     * @param string $_type
+     * @param array $_keywords
+     * @param string $_capacity
+     * @param bool $_repeat
      */
     public function __construct($_name, $_gameName, $_host, $_date, $_time, $_location, $_genre, $_edition = 'na',
                                 $_type ='RPG', $_keywords =array(), $_capacity= '50', $_repeat=false)
