@@ -9,6 +9,10 @@ class LocalDungeonController
         $this->_f3 = $f3;
     }
 
+    public function test(){
+        $this->_db = new database();
+    }
+
     public function home()
     {
         $view = new Template();

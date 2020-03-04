@@ -13,7 +13,7 @@
 
 class database
 {
-    private $dbh;
+    private $_dbh;
 
     /**
      * database constructor.
@@ -30,14 +30,15 @@ class database
     function connect()
     {
 //        require_once("../../../boiconfig.php");
-//        require_once("../../../connect_localdungeons.php");
+        require_once("../../../connect_localdungeons.php");
 
         try {
+
             //Instantiate a database object
-            $this->dbh = new PDO(DB_DSN, DB_USERNAME,
+            $this->_dbh = new PDO(DB_DSN, DB_USERNAME,
                 DB_PASSWORD);
             //echo "Connected to database!!!";
-            return $this->dbh;
+            return $this->_dbh;
         } catch (PDOException $e) {
             return $e->getMessage();
         }
@@ -50,13 +51,13 @@ class database
      * @param $password
      * @return int - Id of the last inserted user.
      */
-    function insertUser($user, $password)
+    public function insertUser($user, $password)
     {
         //query
         $sql = "INSERT INTO `users` (`username`,`password`) VALUES (:username, :password);";
 
         //statement
-        $statement = $this->dbh->prepare($sql);
+        $statement = $this->_dbh->prepare($sql);
 
         //bind
         $statement->bindParam(':username', $user, PDO::PARAM_STR);
@@ -65,7 +66,7 @@ class database
         //exe
         $statement->execute();
 
-        return $this->dbh->lastInsertId();
+        return $this->_dbh->lastInsertId();
     }
 
     /**
@@ -77,13 +78,13 @@ class database
      * @param $date
      * @return int - Id of the last inserted row.
      */
-    function insertEvent($game_id, $location_id, $genre_id, $name, $date){
+    public function insertEvent($game_id, $location_id, $genre_id, $name, $date){
         //query
         $sql = "INSERT INTO `event` (`event_name`, `event_date`, `event_posting`, `location_id`, `genre_id`, `game_id`)
                 VALUES (:event_name, :event_date, NOW(), :location_id, :genre_id, :game_id);";
 
         //statement
-        $statement = $this->dbh->prepare($sql);
+        $statement = $this->_dbh->prepare($sql);
 
         //bind
         $statement->bindParam(':event_name', $name, PDO::PARAM_STR);
@@ -95,7 +96,7 @@ class database
         //exe
         $statement->execute();
 
-        return $this->dbh->lastInsertId();
+        return $this->_dbh->lastInsertId();
     }
 
     /**
@@ -110,7 +111,7 @@ class database
         $sql = "INSERT INTO `event_location` (`city`, `zip`, `street`)
                 VALUES (:city, :zip, :street);";
         //statement
-        $statement = $this->dbh->prepare($sql);
+        $statement = $this->_dbh->prepare($sql);
 
         //bind
         $statement->bindParam(':city', $city, PDO::PARAM_STR);
@@ -120,7 +121,7 @@ class database
         //exe
         $statement->execute();
 
-        return $this->dbh->lastInsertId();
+        return $this->_dbh->lastInsertId();
     }
 
     /**
@@ -133,7 +134,7 @@ class database
         //query
         $sql = "INSERT INTO `tags` (`tag_name`) VALUES (:tag);";
         //statement
-        $statement = $this->dbh->prepare($sql);
+        $statement = $this->_dbh->prepare($sql);
 
         //bind
         $statement->bindParam(':tag', $tag, PDO::PARAM_STR);
@@ -141,7 +142,7 @@ class database
         //exe
         $statement->execute();
 
-        return $this->dbh->lastInsertId();
+        return $this->_dbh->lastInsertId();
     }
 
     /**
@@ -156,7 +157,7 @@ class database
         $sql = "INSERT INTO `event_registration` (`user_id`, `event_id`, `event_privilege`)
                 VALUES (:user_id, :event_id, :privilege);";
         //statement
-        $statement = $this->dbh->prepare($sql);
+        $statement = $this->_dbh->prepare($sql);
 
         //bind
         $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
@@ -178,7 +179,7 @@ class database
         $sql = "INSERT INTO `event_tags` (`user_id`, `event_id`)
                 VALUES (:user_id, :event_id);";
         //statement
-        $statement = $this->dbh->prepare($sql);
+        $statement = $this->_dbh->prepare($sql);
 
         //bind
         $statement->bindParam(':user_id', $tag_id, PDO::PARAM_INT);
@@ -200,7 +201,7 @@ class database
         $sql = "SELECT `user_id` FROM `user` WHERE `username`=:username AND `password`=:password";
 
         //statement
-        $statement = $this->dbh->prepare($sql);
+        $statement = $this->_dbh->prepare($sql);
 
         $statement->bindParam(':username', $user, PDO::PARAM_STR);
         $statement->bindParam(':password', $password, PDO::PARAM_STR);
@@ -230,7 +231,7 @@ class database
             `event_tags`.tag_id = `tags`.tag_id AND `event_tags`.`event_id` = :event_id";
 
         //statement
-        $statement = $this->dbh->prepare($sql);
+        $statement = $this->_dbh->prepare($sql);
 
         $statement->bindParam(':event_id', $event_id, PDO::PARAM_INT);
 
