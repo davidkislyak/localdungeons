@@ -32,8 +32,19 @@ $f3->route('GET /login', function () {
     $GLOBALS['controller']->login();
 });
 
+//define a logout route
+//$f3->route('GET /logout', function () {
+//   $GLOBALS['controller']->logout();
+//});
+
+//define a profile route
+$f3->route('GET /myaccount', function () {
+    $GLOBALS['controller']->account();
+});
+
 //define the event page route
 $f3->route('GET /event/@event_id', function ($f3, $params) {
+    $f3->set("page", "event");
     $GLOBALS['controller']->event( $params['event_id']);
 });
 

@@ -15,27 +15,7 @@
 </head>
 <body>
 <div class="container-fluid main mb-5">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">
-            <img src="./images/blue_80s_action_logo.png" height="50" width="250" alt="Local Dungeons logo"/>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
-                aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-            <span class="navbar-nav mr-auto mt-2 mt-lg-0"></span>
-            <form class="form-inline my-2 my-lg-0">
-                <button class="btn my-2" type="/addevent">Create Event</button>
-                <button class="btn my-2 my-sm-0 pl-0" type="/myevents">My Events</button>
-                <div class="border-left">
-                    <button class="btn my-2 my-sm-0" type="/myaccount">My Account</button>
-                    <button class="btn btn-primary my-2 my-sm-0" type="/login">Login</button>
-                    <!--            <button class="btn btn-danger my-2 my-sm-0" type="submit">Logout</button>-->
-                </div>
-            </form>
-        </div>
-    </nav>
+    <include href="views/header.html">
     <div class="container">
         <div class="input-group container mr-3 mt-3 mb-4">
             <h3 class="pr-3 form-check-label">Search Games</h3>
@@ -118,8 +98,10 @@
                         <p class="pr-3 pl-3">Posted 1 week ago</p>
                     </div>
                     <p>Do you have what it takes to join the Critical Role party? Signup today and get a chance to
-                        play with The Rock himself! About Critical Role: What started as a home Dungeons & Dragons game
-                        in 2012 has evolved into to a bit of a phenomenon. Critical Role is now in its second campaign
+                        play with The Rock himself! About Critical Role: What started as a home Dungeons & Dragons
+                        game
+                        in 2012 has evolved into to a bit of a phenomenon. Critical Role is now in its second
+                        campaign
                         with nearly 500 hours of storytelling, crafted by Dungeon Master Matthew Mercer and fellow
                         accomplished voice actors Travis Willingham, Marisha Ray, Taliesin Jaffe, Ashley Johnson,
                         Sam Riegel, Liam O’Brien, and Laura Bailey.</p>
@@ -140,16 +122,6 @@
         </div>
     </div>
 </div>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+<include href="views/footer.html">
 </body>
 </html>

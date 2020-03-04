@@ -29,6 +29,9 @@ class database
      */
     function connect()
     {
+//        require_once("../../../boiconfig.php");
+//        require_once("../../../connect_localdungeons.php");
+
         try {
             //Instantiate a database object
             $this->dbh = new PDO(DB_DSN, DB_USERNAME,
