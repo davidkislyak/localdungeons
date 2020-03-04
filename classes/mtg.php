@@ -10,7 +10,7 @@
  */
 
 
-class mtg extends generic
+class Mtg extends GenericGame
 {
     public function __construct($_name, $_host, $_date, $_time, $_location, $_genre = 'fantasy',$_keywords = array(),
                                 $_capacity = '50', $_repeat = false, $_edition = 'Na')

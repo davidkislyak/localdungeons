@@ -10,7 +10,7 @@
  */
 
 
-class soc extends generic
+class Soc extends GenericGame
 {
     public function __construct($_name, $_host, $_date, $_time, $_location, $_genre = 'medieval',$_keywords = array(),
                                 $_capacity = '24', $_repeat = false, $_edition = 'base game')
