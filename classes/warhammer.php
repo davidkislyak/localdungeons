@@ -10,7 +10,7 @@
  */
 
 
-class warhammer extends generic
+class Warhammer extends GenericGame
 {
     public function __construct($_name, $_host, $_date, $_time, $_location, $_genre = 'fantasy',$_keywords = array(),
                                 $_capacity = '24', $_repeat = false, $_edition = 'AOS')

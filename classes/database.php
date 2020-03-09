@@ -11,7 +11,7 @@
 
 //require(database info root);
 
-class database
+class Database
 {
     private $_dbh;
 
@@ -190,6 +190,37 @@ class database
     }
 
     // getters/queries
+
+    function getTagId($tag){
+        $sql = "SELECT `tag_id` FROM `tags` WHERE `tag_name`=:tag";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        $statement->bindParam(':tag', $tag, PDO::PARAM_STR);
+
+        //exe
+        $statement->execute();
+
+        $query = $statement->fetch();
+
+        return $query['tag_id'];
+    }
+
+    function getGameId($game){
+        $sql = "SELECT `game_id` FROM `game` WHERE `game_name`=:game";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        $statement->bindParam(':game', $game, PDO::PARAM_STR);
+        //exe
+        $statement->execute();
+
+        $query = $statement->fetch();
+
+        return $query['game_id'];
+    }
 
     /**
      * gets the user id from the username and password
