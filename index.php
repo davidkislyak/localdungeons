@@ -19,8 +19,8 @@ $controller = new LocalDungeonController($f3);
 
 //define a default route
 $f3->route('GET /', function () {
-    //$GLOBALS['controller']->home();
-    $GLOBALS['controller']->test();
+    $GLOBALS['controller']->home();
+//    $GLOBALS['controller']->test();
 
 });
 
