@@ -245,11 +245,40 @@ class Database
         return $query['user_id'];
     }
 
-    /**
-     * getLocation - unsure of how to do this one. or if we need it.
-     */
-    function getLocation(){
+    function getLocationId($zip, $street){
+        $sql = "SELECT `location_id` FROM `event_location` WHERE `zip`=:zip AND `street`=:street";
 
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        $statement->bindParam(':zip', $zip, PDO::PARAM_INT);
+        $statement->bindParam(':street', $street, PDO::PARAM_STR);
+
+        //exe
+        $statement->execute();
+
+        $query = $statement->fetch();
+
+        return $query['location_id'];
+    }
+
+    /**
+     * gets location from the event_location table.
+     * @param $location_id
+     * @return mixed
+     */
+    function getLocation($location_id){
+        $sql = "SELECT `city`, `zip`, `street` FROM `event_location` WHERE `location_id`=:id";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        $statement->bindParam(':id', $location_id, PDO::PARAM_INT);
+
+        //exe
+        $statement->execute();
+
+        return $statement->fetch();
     }
 
     /**
