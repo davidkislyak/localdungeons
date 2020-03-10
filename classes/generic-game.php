@@ -17,7 +17,9 @@ class GenericGame
     private $_host;
     private $_date;
     private $_time;
-    private $_location;
+    private $_city;
+    private $_zip;
+    private $_street;
     private $_capacity;
     private $_repeat;
     private $_type;
@@ -28,28 +30,32 @@ class GenericGame
 
     /**
      * generic-game constructor.
-     * @param $_name
-     * @param $_gameName
+     * @param string $_name
+     * @param string $_gameName
      * @param $_host
      * @param $_date
      * @param $_time
-     * @param $_location
-     * @param $_genre
+     * @param string $_city
+     * @param int $_zip
+     * @param string $_street
+     * @param string $_genre
      * @param string $_edition
      * @param string $_type
      * @param array $_tags
      * @param string $_capacity
      * @param bool $_repeat
      */
-    public function __construct($_name, $_gameName, $_host, $_date, $_time, $_location, $_genre, $_edition = 'na',
-                                $_type ='RPG', $_tags =array(), $_capacity= '50', $_repeat=false)
+    public function __construct($_name, $_gameName, $_host, $_date, $_time, $_city, $_zip, $_street, $_genre,
+                                $_edition = 'na', $_type ='RPG', $_tags =array(), $_capacity= '50', $_repeat=false)
     {
         $this->_name = $_name;
         $this->_gameName = $_gameName;
         $this->_host = $_host;
         $this->_date = $_date;
         $this->_time = $_time;
-        $this->_location = $_location;
+        $this->_city = $_city;
+        $this->_zip = $_zip;
+        $this->_street = $_street;
         $this->_type = $_type;
         $this->_genre = $_genre;
         $this->_edition = $_edition;
@@ -102,9 +108,25 @@ class GenericGame
     /**
      * @return string
      */
-    public function getLocation()
+    public function getCity()
     {
-        return $this->_location;
+        return $this->_city;
+    }
+
+    /**
+     * @return int
+     */
+    public function getZip()
+    {
+        return $this->_zip;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStreet()
+    {
+        return $this->_street;
     }
 
     /**
@@ -207,9 +229,25 @@ class GenericGame
     /**
      * @param mixed $location
      */
-    public function setLocation($location)
+    public function setCity($location)
     {
-        $this->_location = $location;
+        $this->city = $location;
+    }
+
+    /**
+     * @param int $zip
+     */
+    public function setZip($zip)
+    {
+        $this->_zip = $zip;
+    }
+
+    /**
+     * @param string $street
+     */
+    public function setStreet($street)
+    {
+        $this->_street = $street;
     }
 
     /**

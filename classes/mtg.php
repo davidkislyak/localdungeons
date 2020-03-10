@@ -12,12 +12,12 @@
 
 class Mtg extends GenericGame
 {
-    public function __construct($_name, $_host, $_date, $_time, $_location, $_genre = 'fantasy',$_keywords = array(),
-                                $_capacity = '50', $_repeat = false, $_edition = 'Na')
+    public function __construct($_name, $_host, $_date, $_time, $_city, $_zip, $_street, $_genre = 'fantasy',
+                                $_keywords = array(), $_capacity = '50', $_repeat = false, $_edition = 'Na')
     {
         $_gameName = 'Magic the Gathering';
         $_type = 'Trading Cards';
-        parent::__construct($_name, $_host, $_gameName, $_genre, $_date, $_time, $_location, $_type, $_keywords,
-            $_capacity, $_repeat, $_edition);
+        parent::__construct($_name, $_host, $_gameName, $_genre, $_date, $_time, $_city, $_zip, $_street, $_type,
+            $_keywords, $_capacity, $_repeat, $_edition);
     }
 }
