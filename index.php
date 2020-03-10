@@ -20,7 +20,6 @@ $controller = new LocalDungeonController($f3);
 //define a default route
 $f3->route('GET /', function () {
     $GLOBALS['controller']->home();
-
 });
 
 //define the events route

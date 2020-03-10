@@ -29,8 +29,8 @@ class Database
      */
     function connect()
     {
-        require_once("../../../boiconfig.php");
-//        require_once("../../../connect_localdungeons.php");
+//        require_once("../../../boiconfig.php");
+        require_once("../../connect_localdungeons.php");
 
         try {
 
