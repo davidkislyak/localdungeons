@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/general.css">
+
+    <title>Create an Event</title>
+</head>
+<body>
+<div class="container-fluid main mb-5">
+    <include href="views/header.html">
+        <div class="container mb-5">
+            <div class="jumbotron jumbotron-fluid bg-transparent text-center">
+                <div class="container">
+                    <h1 class="display-2"><b>Create an Event</b></h1>
+                </div>
+            </div>
+            <fieldset class="form-group">
+                <div class="row">
+                    <legend>Game Information</legend>
+                    <!--row for first,middle and last name-->
+                    <div class="form-group col-sm-12 col-md-4">
+                        <label for="eventName"> Event Name<em>*</em> </label>
+                        <input type="text" class="form-control general" name="eventName" id="eventName">
+                        <span class="err" id="err-ename">
+                            Please enter your event name</span>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4">
+                        <label for="gameType"> Game<em>*</em> </label>
+                        <select class="form-control general" id="gameType">
+                            <option value="none">--Select a game--</option>
+                            <option value="1">Dungeons & Dragons</option>
+                            <option value="2">Magic The Gathering</option>
+                            <option value="3">Settlers Of Catan</option>
+                            <option value="4">Warhammer</option>
+                            <option value="4">Other/Homebrew</option>
+                        </select>
+                        <span class="err" id="err-gtype">
+                            Please select your game type</span>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-4">
+                        <label for="eventGenre"> Genre<em>*</em> </label>
+                        <select class="form-control general" id="eventGenre">
+                            <option value="none">--Select a genre--</option>
+                            <option value="1">Cyberpunk</option>
+                            <option value="2">Medieval</option>
+                            <option value="3">Retro</option>
+                        </select>
+                        <span class="err" id="err-genre">
+                            Please select your game type</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <legend>Event Location</legend>
+                    <div class="form-group col-sm-6 col-md-3">
+                        <label for="eventName"> Zipcode<em>*</em> </label>
+                        <input type="text" class="form-control general" name="zip" id="zip">
+                        <span class="err" id="err-zip">
+                            Please enter a valid zipcode</span>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-3">
+                        <label for="eventName"> City<em>*</em> </label>
+                        <input type="text" class="form-control general" name="eventName" id="eventName">
+                        <span class="err" id="err-city">
+                            Please enter a city</span>
+                    </div>
+                    <div class="form-group col-sm-12 col-md-6">
+                        <label for="eventName"> Street<em>*</em> </label>
+                        <input type="text" class="form-control general" name="eventName" id="eventName">
+                        <span class="err" id="err-street">
+                            Please a street address</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <legend>Event Information</legend>
+                    <div class="form-group col-sm-12 col-md-6">
+                        <label for="eventTags"> Event Description<em>*</em> </label>
+                        <textarea class="w-100 h-75 rounded" name="eventDescription" id="eventDescription"></textarea>
+                    </div>
+                    <div class="form-group col-sm-9 col-md-3">
+                        <label for="eventTags"> Event Tags<em>*</em> </label>
+                        <div class="border rounded">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Ex. pizza" aria-label="tag-search">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">Add</button>
+                                </div>
+                            </div>
+                            <div class="m-3" id="eventTags">
+                                <label><input type="checkbox" value="43" checked> pizza</label><br>
+                                <label><input type="checkbox" value="89" checked> drinks</label><br>
+                                <label><input type="checkbox" value="6" checked> dnd</label><br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-3 col-md-3">
+                        <label for="eventCapacity"> Event Capacity<em>*</em> </label>
+                        <input type="number" class="form-control" placeholder="Ex. 3" id="eventCapacity">
+                    </div>
+                </div>
+            </fieldset>
+            <div class="d-flex justify-content-center align-items-center">
+                <button class="btn-primary rounded w-75">Create Event</button>
+            </div>
+        </div>
+</div>
+<include href="views/footer.html">
+</body>
+</html>

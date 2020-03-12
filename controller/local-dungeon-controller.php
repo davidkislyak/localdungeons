@@ -8,13 +8,12 @@ class LocalDungeonController
     public function __construct($f3)
     {
         $this->_f3 = $f3;
-        $this->_db = new database();
+        $this->_db = new Database();
     }
 
     public function home()
     {
         $view = new Template();
-
         echo $view->render('views/home.html');
     }
 
@@ -40,6 +39,12 @@ class LocalDungeonController
     {
         $view = new Template();
         echo $view->render('views/myevents.html');
+    }
+
+    public function createEvent()
+    {
+        $view = new Template();
+        echo $view->render('views/createevent.html');
     }
 
     public function account(){
