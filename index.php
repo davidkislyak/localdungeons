@@ -53,5 +53,10 @@ $f3->route('GET /myevents', function () {
     $GLOBALS['controller']->registeredEvents();
 });
 
+//define event creation page route
+$f3->route('GET /createevent', function () {
+    $GLOBALS['controller']->createEvent();
+});
+
 //run fat free
 $f3->run();
