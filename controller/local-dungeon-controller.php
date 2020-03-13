@@ -13,25 +13,51 @@ class LocalDungeonController
 
     public function home()
     {
+        $db = $this->_db;
         $view = new Template();
+
+//        if($_POST['game'] && $_POST['city']){
+//            $game = $_POST['game'];
+//            $city = $_POST['city'];
+//
+//            $search = $db->search($game, $city);
+//            $f3->reroute('/events');
+//        }
+
         echo $view->render('views/home.html');
     }
 
     public function events()
     {
+        $db =$this->_db;
         $view = new Template();
+
+//      searchResults
+//        $db->fetchTags($event_id);
+
         echo $view->render('views/events.html');
     }
 
     public function login()
     {
+        $db = $this->_db;
         $view = new Template();
+
+//        if($_POST['user'] && $_POST['password']){
+//            $user = $_POST['user'];
+//            $password = $_POST['password'];
+//
+//            $user_id = $db->getUserId($user, $password);
+//            $f3->reroute('/');
+//        }
+
         echo $view->render('views/login.html');
     }
 
     public function event($event_id)
     {
         $view = new Template();
+
         echo $view->render('views/event.html');
     }
 
@@ -43,12 +69,20 @@ class LocalDungeonController
 
     public function createEvent()
     {
+        $db = $this->_db;
         $view = new Template();
+
+//        if(post) {
+//            $db->insertEvent($game_id, $location_id, $genre_id, $name, $date, $capacity);
+//        }
         echo $view->render('views/createevent.html');
     }
 
     public function account(){
         $view = new Template();
+
+
+
         echo $view->render('views/myaccount.html');
     }
 
@@ -68,13 +102,12 @@ class LocalDungeonController
         $date = $game->getDate();
         $time = $game->getTime();
         $location_id = $this->location($game);
-        //$capacity = $game->getCapacity();
-        //$type = $game->getType();
+        $capacity = $game->getCapacity();
         $genre = $db->getGenreId($game->getGenre());
         $tags = $game->getTags();
         //$notes = $game->getNotes();
 
-        $event_id = $db->insertEvent($game_id, $location_id, $genre, $name, $date);
+        $event_id = $db->insertEvent($game_id, $location_id, $genre, $name, $date, $capacity);
 
         foreach($tags as $tag){
             $tag_id = $db->getTagId($tag);

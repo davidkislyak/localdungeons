@@ -13,7 +13,7 @@
 class Dnd extends GenericGame
 {
     public function __construct($_name, $_host, $_date, $_time, $_city, $_zip, $_street, $_genre = 'fantasy',
-                                $_keywords = array(), $_capacity = '50', $_repeat = false, $_edition = '5th')
+                                $_keywords = array(), $_capacity = '0', $_repeat = false, $_edition = '5th')
     {
         $_gameName = 'Dungeons & Dragons';
         $_type = 'RPG';
