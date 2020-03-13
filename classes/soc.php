@@ -13,7 +13,7 @@
 class Soc extends GenericGame
 {
     public function __construct($_name, $_host, $_date, $_time, $_city, $_zip, $_street, $_genre = 'medieval',
-                                $_keywords = array(), $_capacity = '24', $_repeat = false, $_edition = 'base game')
+                                $_keywords = array(), $_capacity = '0', $_repeat = false, $_edition = 'base game')
     {
         $_gameName = 'Settlers of Catan';
         $_type = 'Board game';

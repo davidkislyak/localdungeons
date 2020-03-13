@@ -46,7 +46,7 @@ class GenericGame
      * @param bool $_repeat
      */
     public function __construct($_name, $_gameName, $_host, $_date, $_time, $_city, $_zip, $_street, $_genre,
-                                $_edition = 'na', $_type ='RPG', $_tags =array(), $_capacity= '50', $_repeat=false)
+                                $_edition = 'na', $_type ='RPG', $_tags =array(), $_capacity= '0', $_repeat=false)
     {
         $this->_name = $_name;
         $this->_gameName = $_gameName;
