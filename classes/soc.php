@@ -12,12 +12,12 @@
 
 class Soc extends GenericGame
 {
-    public function __construct($_name, $_host, $_date, $_time, $_city, $_zip, $_street, $_genre = 'medieval',
-                                $_keywords = array(), $_capacity = '0', $_repeat = false, $_edition = 'base game')
+    public function __construct($_name, $_host, $_date, $_time, $_city, $_zip, $_street, $_genre = 'Medieval',
+                                $_tags = array(), $_capacity = '0', $_edition = '')
     {
-        $_gameName = 'Settlers of Catan';
+        $_gameName = 'Settlers of Catan '.$_edition;
         $_type = 'Board game';
-        parent::__construct($_name, $_host, $_gameName, $_genre, $_date, $_time, $_city, $_zip, $_street, $_type,
-            $_keywords, $_capacity, $_repeat, $_edition);
+        parent::__construct($_gameName, $_name, $_host, $_date, $_time, $_city, $_zip, $_street, $_genre, $_type,
+            $_tags, $_capacity);
     }
 }

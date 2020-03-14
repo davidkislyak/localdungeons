@@ -12,12 +12,12 @@
 
 class Warhammer extends GenericGame
 {
-    public function __construct($_name, $_host, $_date, $_time, $_city, $_zip, $_street, $_genre = 'fantasy',$_keywords = array(),
-                                $_capacity = '0', $_repeat = false, $_edition = 'AOS')
+    public function __construct($_name, $_host, $_date, $_time, $_city, $_zip, $_street, $_genre = 'fantasy',
+                                $_tags = array(), $_capacity = '0', $_edition = 'AOS')
     {
-        $_gameName = 'Wahammer';
+        $_gameName = 'Wahammer '.$_edition;
         $_type = 'Miniature Wargaming';
-        parent::__construct($_name, $_host, $_gameName, $_genre, $_date, $_time, $_city, $_zip, $_street, $_type,
-            $_keywords, $_capacity, $_repeat, $_edition);
+        parent::__construct($_gameName, $_name, $_host, $_date, $_time, $_city, $_zip, $_street, $_genre, $_type,
+            $_tags, $_capacity);
     }
 }

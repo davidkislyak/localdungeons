@@ -22,6 +22,10 @@ $f3->route('GET /', function () {
     $GLOBALS['controller']->home();
 });
 
+$f3->route('GET /test', function (){
+    $GLOBALS['controller']->test();
+});
+
 //define the events route
 $f3->route('GET /events', function () {
     $GLOBALS['controller']->events();
