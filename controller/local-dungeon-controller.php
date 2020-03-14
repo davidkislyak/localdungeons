@@ -14,23 +14,37 @@ class LocalDungeonController
     public function test(){
         $db = $this->_db;
 
+
+        //initializes the search result array
         $searchResults = array();
 
         $test = $db->search('Dungeons & Dragons 5E','Kent');
         foreach ($test as $item){
+
+            //get tags from the database
             $tagArray = array();
+
             foreach ($db->fetchTags($item['event_id']) as $tag) {
+
                 array_push($tagArray, $tag['tag_name']);
             }
 
+            //explodes the DATETIME data gotten from the database
             $explode = explode(" ", $item['event_date']);
             $day = $explode[0];
             $time = $explode[1];
 
+
+
+            //creates temp object
             $object = new Dnd($item['event_name'], 'host', $day, $time, $item['city'], $item['zip'],
                  $item['street'], $item['genre_name'], $tagArray, $item['capacity']);
+            $object->setNotes($item['event_description']);
+
+            //Adds to the search results
             array_push($searchResults, $object);
         }
+        //print results
         foreach ($searchResults as $item){
             echo '<br>'.$item->getName().'<br>';
             echo $item->getGameName().'<br>';
@@ -41,10 +55,12 @@ class LocalDungeonController
             echo $item->getZip().'<br>';
             echo $item->getStreet().'<br>';
             echo $item->getGenre().'<br>';
-            foreach ($item->getTags() as $tag){
-                echo $tag.'<br>';
+
+            foreach ($item->getTags() as &$tag){
+                echo $tag.', ';
             }
-            echo $item->getCapacity().'<br>';
+            echo '<br>'.$item->getNotes().'<br>';
+            echo $item->getCapacity().'<br><br><br><br>';
         }
     }
 
@@ -80,8 +96,8 @@ class LocalDungeonController
         $db = $this->_db;
         $view = new Template();
 
-//        if($_POST['user'] && $_POST['password']){
-//            $user = $_POST['user'];
+//        if($_POST['username'] && $_POST['password']){
+//            $user = $_POST['username'];
 //            $password = $_POST['password'];
 //
 //            $user_id = $db->getUserId($user, $password);
@@ -110,6 +126,8 @@ class LocalDungeonController
         $view = new Template();
 
 //        if(post) {
+//          $game = new GenericGame(post post... post);
+//          addEvent($game, user_id);
 //            $db->insertEvent($game_id, $location_id, $genre_id, $name, $date, $capacity);
 //        }
         echo $view->render('views/createevent.html');
@@ -142,7 +160,7 @@ class LocalDungeonController
         $capacity = $game->getCapacity();
         $genre = $db->getGenreId($game->getGenre());
         $tags = $game->getTags();
-        //$notes = $game->getNotes();
+        $notes = $game->getNotes();
 
         $event_id = $db->insertEvent($game_id, $location_id, $genre, $name, $date, $capacity);
 

@@ -309,7 +309,7 @@ class Database
     public function search($game, $city){
         $sql = "SELECT `event`.`event_id`, `event`.`event_name`, `event_location`.`city`, `event_location`.`zip`,
                 `event_location`.`street`, `game`.`game_name`, `genres`.`genre_name`, `event`.`event_date`, 
-                `event_posting` FROM `event`
+                `event`.`event_posting`, `event`.`event_description` FROM `event`
                     INNER JOIN `game` ON `game`.`game_id` = `event`.`game_id` 
                     INNER JOIN `event_location` ON `event_location`.`location_id` = `event`.`location_id` 
                     INNER JOIN `genres` ON `genres`.`genre_id` = `event`.`genre_id`
