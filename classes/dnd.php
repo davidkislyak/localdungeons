@@ -13,11 +13,11 @@
 class Dnd extends GenericGame
 {
     public function __construct($_name, $_host, $_date, $_time, $_city, $_zip, $_street, $_genre = 'fantasy',
-                                $_keywords = array(), $_capacity = '0', $_repeat = false, $_edition = '5th')
+                                $_tags = array(), $_capacity = '0', $_edition = '5th')
     {
-        $_gameName = 'Dungeons & Dragons';
+        $_gameName = 'Dungeons & Dragons '.$_edition;
         $_type = 'RPG';
-        parent::__construct($_name, $_host, $_gameName, $_genre, $_date, $_time, $_city, $_zip, $_street, $_type,
-            $_keywords, $_capacity, $_repeat, $_edition);
+        parent::__construct($_gameName, $_name, $_host, $_date, $_time, $_city, $_zip, $_street, $_genre, $_type,
+            $_tags, $_capacity);
     }
 }

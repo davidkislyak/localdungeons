@@ -310,13 +310,13 @@ class Database
         $sql = "SELECT `event`.`event_id`, `event`.`event_name`, `event_location`.`city`, `event_location`.`zip`,
                 `event_location`.`street`, `game`.`game_name`, `genres`.`genre_name`, `event`.`event_date`, 
                 `event_posting` FROM `event`
-                    RIGHT JOIN `game` ON `game`.`game_id` = `event`.`game_id` 
-                    RIGHT JOIN `event_location` ON `event_location`.`location_id` = `event`.`location_id` 
-                    RIGHT JOIN `genres` ON `genres`.`genre_id` = `event`.`genre_id`
+                    INNER JOIN `game` ON `game`.`game_id` = `event`.`game_id` 
+                    INNER JOIN `event_location` ON `event_location`.`location_id` = `event`.`location_id` 
+                    INNER JOIN `genres` ON `genres`.`genre_id` = `event`.`genre_id`
                 AND `game`.`game_name` = :game AND `event_location`.`city` = :city";
 
         //statement
-        $statement = $this->dbh->prepare($sql);
+        $statement = $this->_dbh->prepare($sql);
 
         $statement->bindParam(':game', $game, PDO::PARAM_STR);
         $statement->bindParam(':city', $city, PDO::PARAM_STR);
@@ -334,13 +334,13 @@ class Database
      * @return mixed
      */
     public function fetchTags($event_id){
-        $sql = "SELECT `tags`.tag_name FROM `tags` INNER JOIN `tags` ON 
+        $sql = "SELECT `tags`.tag_name FROM `tags` INNER JOIN `event_tags` ON 
             `event_tags`.tag_id = `tags`.tag_id AND `event_tags`.`event_id` = :event_id";
 
         //statement
         $statement = $this->_dbh->prepare($sql);
 
-        $statement->bindParam(':event_id', $event_id, PDO::PARAM_INT);
+        $statement->bindParam(':event_id', $event_id, PDO::PARAM_STR);
 
         //exe
         $statement->execute();

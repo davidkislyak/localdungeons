@@ -11,6 +11,43 @@ class LocalDungeonController
         $this->_db = new Database();
     }
 
+    public function test(){
+        $db = $this->_db;
+
+        $searchResults = array();
+
+        $test = $db->search('Dungeons & Dragons 5E','Kent');
+        foreach ($test as $item){
+            $tagArray = array();
+            foreach ($db->fetchTags($item['event_id']) as $tag) {
+                array_push($tagArray, $tag['tag_name']);
+            }
+
+            $explode = explode(" ", $item['event_date']);
+            $day = $explode[0];
+            $time = $explode[1];
+
+            $object = new Dnd($item['event_name'], 'host', $day, $time, $item['city'], $item['zip'],
+                 $item['street'], $item['genre_name'], $tagArray, $item['capacity']);
+            array_push($searchResults, $object);
+        }
+        foreach ($searchResults as $item){
+            echo '<br>'.$item->getName().'<br>';
+            echo $item->getGameName().'<br>';
+            echo $item->getHost().'<br>';
+            echo $item->getDate().'<br>';
+            echo $item->getTime().'<br>';
+            echo $item->getCity().'<br>';
+            echo $item->getZip().'<br>';
+            echo $item->getStreet().'<br>';
+            echo $item->getGenre().'<br>';
+            foreach ($item->getTags() as $tag){
+                echo $tag.'<br>';
+            }
+            echo $item->getCapacity().'<br>';
+        }
+    }
+
     public function home()
     {
         $db = $this->_db;

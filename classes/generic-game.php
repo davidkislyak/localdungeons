@@ -21,11 +21,10 @@ class GenericGame
     private $_zip;
     private $_street;
     private $_capacity;
-    private $_repeat;
     private $_type;
     private $_edition;
     private $_genre;
-    private $_keywords;
+    private $_tags;
     private $_notes;
 
     /**
@@ -39,14 +38,12 @@ class GenericGame
      * @param int $_zip
      * @param string $_street
      * @param string $_genre
-     * @param string $_edition
      * @param string $_type
      * @param array $_tags
      * @param string $_capacity
-     * @param bool $_repeat
      */
-    public function __construct($_name, $_gameName, $_host, $_date, $_time, $_city, $_zip, $_street, $_genre,
-                                $_edition = 'na', $_type ='RPG', $_tags =array(), $_capacity= '0', $_repeat=false)
+    public function __construct($_gameName, $_name, $_host, $_date, $_time, $_city, $_zip, $_street,
+                                $_genre, $_type ='RPG', $_tags =array(), $_capacity='0')
     {
         $this->_name = $_name;
         $this->_gameName = $_gameName;
@@ -58,10 +55,8 @@ class GenericGame
         $this->_street = $_street;
         $this->_type = $_type;
         $this->_genre = $_genre;
-        $this->_edition = $_edition;
-        $this->_keywords = $_tags;
+        $this->_tags = $_tags;
         $this->_capacity = $_capacity;
-        $this->_repeat = $_repeat;
     }
 
     //getters
@@ -134,7 +129,7 @@ class GenericGame
      */
     public function getTags()
     {
-        return $this->_keywords;
+        return $this->_tags;
     }
 
     /**
@@ -143,14 +138,6 @@ class GenericGame
     public function getCapacity()
     {
         return $this->_capacity;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isRepeat()
-    {
-        return $this->_repeat;
     }
 
     /**
@@ -227,11 +214,11 @@ class GenericGame
     }
 
     /**
-     * @param mixed $location
+     * @param string $city
      */
-    public function setCity($location)
+    public function setCity($city)
     {
-        $this->city = $location;
+        $this->_city = $city;
     }
 
     /**
@@ -251,11 +238,11 @@ class GenericGame
     }
 
     /**
-     * @param array $keywords
+     * @param array $tags
      */
-    public function setKeywords($keywords)
+    public function setTags($tags)
     {
-        $this->_keywords = $keywords;
+        $this->_tags = $tags;
     }
 
     /**
@@ -264,14 +251,6 @@ class GenericGame
     public function setCapacity($capacity)
     {
         $this->_capacity = $capacity;
-    }
-
-    /**
-     * @param bool $repeat
-     */
-    public function setRepeat($repeat)
-    {
-        $this->_repeat = $repeat;
     }
 
     /**
@@ -305,8 +284,4 @@ class GenericGame
     {
         $this->_notes = $notes;
     }
-
-
-
-
 }
