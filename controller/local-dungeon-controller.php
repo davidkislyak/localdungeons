@@ -177,6 +177,27 @@ class LocalDungeonController
         $this->_f3->reroute('/');
     }
 
+    public function createAccount()
+    {
+        $db = $this->_db;
+        $view = new Template();
+
+        if ($_POST['username'] && $_POST['password']) {
+            //TODO: Validation
+
+            $user = $_POST['username'];
+            $password = $_POST['password'];
+
+            //Insert user and assign session variables
+            $_SESSION['userId'] = $db->insertUser($user, $password);
+            $_SESSION['username'] = $user;
+
+            $this->_f3->reroute('/');
+        }
+
+        echo $view->render('views/createuser.html');
+    }
+
     public function event($event_id)
     {
         $view = new Template();

@@ -47,6 +47,11 @@ $f3->route('GET /myaccount', function () {
     $GLOBALS['controller']->account();
 });
 
+//define a profile route
+$f3->route('GET|POST /createaccount', function () {
+    $GLOBALS['controller']->createAccount();
+});
+
 //define the event page route
 $f3->route('GET /event/@event_id', function ($f3, $params) {
     $f3->set("page", "event");
