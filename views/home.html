@@ -21,17 +21,22 @@
             <h2 class="pt-3">Find your next game faster.</h2>
         </div>
     </div>
-
-    <div class="input-group container mb-3">
-        <h3 class="pr-3 form-check-label">Search Games</h3>
-        <input type="text" class="form-control rounded mr-3" placeholder="name, keyword, genre"
-               aria-label="Find a game" value="dnd 5e">
-        <input type="text" class="form-control rounded mr-3" placeholder="city, state, or zip"
-               aria-label="Find a city" value="auburn">
-        <div class="input-group-append">
-            <a class="btn btn-primary rounded" href="./events" id="search-button">Search</a>
+    <form action="#" method="post">
+        <div class="input-group container mb-3">
+            <h3 class="pr-3 form-check-label">Search Games</h3>
+            <select id="gameSearch" name="gameSearch" class="form-control mr-3">
+                <option value="none">-- Select a Game --</option>
+                <F3:repeat group="{{ @games }}" value="{{ @game }}">
+                    <option value="{{ @game['game_id'] }}">{{ @game['game_name'] }}</option>
+                </F3:repeat>
+            </select>
+            <input type="text" class="form-control rounded mr-3" placeholder="City, Ex. Auburn"
+                   aria-label="Find a city" id="citySearch" name="citySearch">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary rounded"  id="search-button">Search</button>
+            </div>
         </div>
-    </div>
+    </form>
     <div class="container text-center mt-5 pt-5">
         <h3>About</h3>
         <p>Local Dungeons is a website aimed at letting people find games and events nearby.

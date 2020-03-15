@@ -7,7 +7,7 @@ ini_set('display_errors', 1);
 require_once('vendor/autoload.php');
 
 //session start
-//session_start();
+session_start();
 
 //create instance of the base class
 $f3 = Base::instance();
@@ -18,8 +18,9 @@ $f3->set('DEBUG', 3);
 $controller = new LocalDungeonController($f3);
 
 //define a default route
-$f3->route('GET /', function () {
+$f3->route('GET|POST /', function () {
     $GLOBALS['controller']->home();
+
 });
 
 $f3->route('GET /test', function (){
@@ -27,19 +28,19 @@ $f3->route('GET /test', function (){
 });
 
 //define the events route
-$f3->route('GET /events', function () {
+$f3->route('GET|POST /events', function () {
     $GLOBALS['controller']->events();
 });
 
 //define the login route
-$f3->route('GET /login', function () {
+$f3->route('GET|POST /login', function () {
     $GLOBALS['controller']->login();
 });
 
 //define a logout route
-//$f3->route('GET /logout', function () {
-//   $GLOBALS['controller']->logout();
-//});
+$f3->route('GET /logout', function () {
+   $GLOBALS['controller']->logout();
+});
 
 //define a profile route
 $f3->route('GET /myaccount', function () {

@@ -30,10 +30,9 @@ class Database
     function connect()
     {
         require_once("../../../boiconfig.php");
-//        require_once("../../../connect_localdungeons.php");
+//        require_once("../../connect_localdungeons.php");
 
         try {
-
             //Instantiate a database object
             $this->_dbh = new PDO(DB_DSN, DB_USERNAME,
                 DB_PASSWORD);
@@ -79,7 +78,8 @@ class Database
      * @param $capacity
      * @return int - Id of the last inserted row.
      */
-    public function insertEvent($game_id, $location_id, $genre_id, $name, $date, $capacity){
+    public function insertEvent($game_id, $location_id, $genre_id, $name, $date, $capacity)
+    {
         //query
         $sql = "INSERT INTO `event` (`event_name`, `event_date`, `event_posting`, `location_id`, `genre_id`, `game_id`,
                 `capacity`)
@@ -109,7 +109,8 @@ class Database
      * @param $street
      * @return int - Id of the last inserted row.
      */
-    public function insertLocation($city, $zip, $street){
+    public function insertLocation($city, $zip, $street)
+    {
         //query
         $sql = "INSERT INTO `event_location` (`city`, `zip`, `street`)
                 VALUES (:city, :zip, :street);";
@@ -155,7 +156,8 @@ class Database
      * @param int $privilege
      * @return true if successful
      */
-    function eventRegistration($user_id, $event_id, $privilege = 0){
+    function eventRegistration($user_id, $event_id, $privilege = 0)
+    {
         //query
         $sql = "INSERT INTO `event_registration` (`user_id`, `event_id`, `event_privilege`)
                 VALUES (:user_id, :event_id, :privilege);";
@@ -177,7 +179,8 @@ class Database
      * @param $tag_id
      * @return true if successful
      */
-    function addTag($event_id, $tag_id){
+    function addTag($event_id, $tag_id)
+    {
         //query
         $sql = "INSERT INTO `event_tags` (`user_id`, `event_id`)
                 VALUES (:user_id, :event_id);";
@@ -199,7 +202,8 @@ class Database
      * @param $tag
      * @return mixed
      */
-    function getTagId($tag){
+    function getTagId($tag)
+    {
         $sql = "SELECT `tag_id` FROM `tags` WHERE `tag_name`=:tag";
 
         //statement
@@ -220,7 +224,8 @@ class Database
      * @param $game
      * @return mixed
      */
-    function getGameId($game){
+    function getGameId($game)
+    {
         $sql = "SELECT `game_id` FROM `game` WHERE `game_name`=:game";
 
         //statement
@@ -236,13 +241,56 @@ class Database
     }
 
     /**
+     * gets game name from game id
+     * @param $id
+     * @return mixed
+     */
+    function getGameName($id)
+    {
+        $sql = "SELECT `game_name` FROM `game` WHERE `game_id`=:id";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        $statement->bindParam(':id', $id, PDO::PARAM_STR);
+        //exe
+        $statement->execute();
+
+        $query = $statement->fetch();
+
+        return $query['game_name'];
+    }
+
+    /**
+     * gets game name from game id
+     * @param $id
+     * @return mixed
+     */
+    function getGenreName($id)
+    {
+        $sql = "SELECT `genre_name` FROM `genres` WHERE `genre_id`=:id";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        $statement->bindParam(':id', $id, PDO::PARAM_STR);
+        //exe
+        $statement->execute();
+
+        $query = $statement->fetch();
+
+        return $query['genre_name'];
+    }
+
+    /**
      * gets the user id from the username and password
      * @param $user
      * @param $password
      * @return mixed
      */
-    public function getUserId($user, $password){
-        $sql = "SELECT `user_id` FROM `user` WHERE `username`=:username AND `password`=:password";
+    public function getUserId($user, $password)
+    {
+        $sql = "SELECT `user_id` FROM `users` WHERE `username`=:username AND `password`=:password";
 
         //statement
         $statement = $this->_dbh->prepare($sql);
@@ -264,7 +312,8 @@ class Database
      * @param $street
      * @return mixed
      */
-    public function getLocationId($zip, $street){
+    public function getLocationId($zip, $street)
+    {
         $sql = "SELECT `location_id` FROM `event_location` WHERE `zip`=:zip AND `street`=:street";
 
         //statement
@@ -286,7 +335,8 @@ class Database
      * @param $location_id
      * @return mixed
      */
-    public function getLocation($location_id){
+    public function getLocation($location_id)
+    {
         $sql = "SELECT `city`, `zip`, `street` FROM `event_location` WHERE `location_id`=:id";
 
         //statement
@@ -306,7 +356,8 @@ class Database
      * @param $city
      * @return mixed
      */
-    public function search($game, $city){
+    public function search($game, $city)
+    {
         $sql = "SELECT `event`.`event_id`, `event`.`event_name`, `event_location`.`city`, `event_location`.`zip`,
                 `event_location`.`street`, `game`.`game_name`, `genres`.`genre_name`, `event`.`event_date`, 
                 `event`.`event_posting`, `event`.`event_description` FROM `event`
@@ -329,11 +380,42 @@ class Database
     }
 
     /**
+     * search based on game and city inputs with a filter(genre)
+     * @param $game
+     * @param $city
+     * @param $filter
+     * @return mixed
+     */
+    public function searchFilter($game, $city, $filter){
+        $sql = "SELECT event.event_id, event.event_name, event_location.city, event_location.zip,
+                event_location.street, game.game_name, genres.genre_name, event.event_date, 
+                event.event_posting, event.event_description FROM event
+                    INNER JOIN game ON game.game_id = event.game_id 
+                    INNER JOIN event_location ON event_location.location_id = event.location_id 
+                    INNER JOIN genres ON genres.genre_id = event.genre_id
+                AND game.game_name = :game AND event_location.city = :city AND genres.genre_name= :genre";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        $statement->bindParam(':game', $game, PDO::PARAM_STR);
+        $statement->bindParam(':city', $city, PDO::PARAM_STR);
+        $statement->bindParam(':genre', $filter, PDO::PARAM_STR);
+
+        //exe
+        $statement->execute();
+
+        //result
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
      * gets all tags associated with an event
      * @param $event_id
      * @return mixed
      */
-    public function fetchTags($event_id){
+    public function fetchTags($event_id)
+    {
         $sql = "SELECT `tags`.tag_name FROM `tags` INNER JOIN `event_tags` ON 
             `event_tags`.tag_id = `tags`.tag_id AND `event_tags`.`event_id` = :event_id";
 
@@ -341,6 +423,42 @@ class Database
         $statement = $this->_dbh->prepare($sql);
 
         $statement->bindParam(':event_id', $event_id, PDO::PARAM_STR);
+
+        //exe
+        $statement->execute();
+
+        //result
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * gets all the games from the database
+     * @return array
+     */
+    public function fetchGames()
+    {
+        $sql = "SELECT * FROM game";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        //exe
+        $statement->execute();
+
+        //result
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * gets all genres from the database
+     * @return array
+     */
+    public function fetchGenres()
+    {
+        $sql = "SELECT * FROM genres";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
 
         //exe
         $statement->execute();
