@@ -62,12 +62,38 @@ class LocalDungeonController
             echo '<br>'.$item->getNotes().'<br>';
             echo $item->getCapacity().'<br><br><br><br>';
         }
+        //DB connection
+        $db = $this->_db;
+        $view = new Template();
+
+        //Get events with search query
+        $f3 = $this->_f3;
+        $f3->set('events', ($db->search('Dungeons & Dragons 5E', 'kent')));
+
+        //Render page
+        echo $view->render('views/testevents.html');
     }
 
     public function home()
     {
         $db = $this->_db;
         $view = new Template();
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //TODO: Validate Inputs
+
+            //Assign search to session.
+            $_SESSION['eventGameSearch'] = $_POST['gameSearch'];
+            $_SESSION['eventCitySearch'] = $_POST['citySearch'];
+            $_SESSION['eventGameSearchName'] = $db->getGameName($_POST['gameSearch']);
+
+            //Session dumps
+//            var_dump($_SESSION['eventGameSearch']);
+//            var_dump($_SESSION['eventCitySearch']);
+
+            //Redirect to events
+            $this->_f3->reroute('/events');
+        }
 
 //        if($_POST['game'] && $_POST['city']){
 //            $game = $_POST['game'];
@@ -77,14 +103,36 @@ class LocalDungeonController
 //            $f3->reroute('/events');
 //        }
 
+        //Get search dropdown params
+        $this->_f3->set('games', $db->fetchGames());
+
         echo $view->render('views/home.html');
     }
 
     public function events()
     {
-        $db =$this->_db;
+        $db = $this->_db;
         $view = new Template();
+        $f3 = $this->_f3;
 
+//        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//
+//        }
+        $f3->set('events', ($db->search(
+            $db->getGameName($_SESSION['eventGameSearch']), $_SESSION['eventCitySearch']))
+        );
+
+        //If filter search
+        $f3->set('eventObjects', $this->searchFilter());
+
+        //If normal search
+        $f3->set('eventObjects', $this->buildEvents());
+
+        //Get dropdown params
+        $f3->set('games', $db->fetchGames());
+        $f3->set('genres', $db->fetchGenres());
+
+//        var_dump($f3->get('events'));
 //      searchResults
 //        $db->fetchTags($event_id);
 
@@ -110,7 +158,6 @@ class LocalDungeonController
     public function event($event_id)
     {
         $view = new Template();
-
         echo $view->render('views/event.html');
     }
 
@@ -186,5 +233,36 @@ class LocalDungeonController
         $street = $game->getStreet();
 
         return $db->insertLocation($city, $zip, $street);
+    }
+
+    private function buildEvents() {
+        //initializes the search result array
+        $searchResults = array();
+
+        foreach ($this->_f3->get('events') as $item){
+
+            //get tags from the database
+            $tagArray = array();
+
+            foreach ($this->_db->fetchTags($item['event_id']) as $tag) {
+
+                array_push($tagArray, $tag['tag_name']);
+            }
+
+            //explodes the DATETIME data gotten from the database
+            $explode = explode(" ", $item['event_date']);
+            $day = $explode[0];
+            $time = $explode[1];
+
+            //creates temp object
+            $object = new Dnd($item['event_name'], 'host', $day, $time, $item['city'], $item['zip'],
+                $item['street'], $item['genre_name'], $tagArray, $item['capacity']);
+            $object->setNotes($item['event_description']);
+
+            //Adds to the search results
+            array_push($searchResults, $object);
+        }
+
+        return $searchResults;
     }
 }

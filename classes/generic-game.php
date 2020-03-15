@@ -29,18 +29,18 @@ class GenericGame
 
     /**
      * generic-game constructor.
-     * @param string $_name
-     * @param string $_gameName
-     * @param $_host
-     * @param $_date
-     * @param $_time
-     * @param string $_city
-     * @param int $_zip
-     * @param string $_street
-     * @param string $_genre
-     * @param string $_type
-     * @param array $_tags
-     * @param string $_capacity
+     * @param string $_name Name of event
+     * @param string $_gameName Type of game
+     * @param $_host User who is hosing
+     * @param $_date Date that event is taking place
+     * @param $_time time that event is taking place.
+     * @param string $_city the city the event is taking place.
+     * @param int $_zip the zip where the event is happening
+     * @param string $_street the street where event is happening
+     * @param string $_genre the genre of the game
+     * @param string $_type *Depreciated*
+     * @param array $_tags the tags describing the event
+     * @param string $_capacity the max capacity of the event
      */
     public function __construct($_gameName, $_name, $_host, $_date, $_time, $_city, $_zip, $_street,
                                 $_genre, $_type ='RPG', $_tags =array(), $_capacity='0')
