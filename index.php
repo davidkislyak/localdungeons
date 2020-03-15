@@ -48,7 +48,7 @@ $f3->route('GET /myaccount', function () {
 });
 
 //define a profile route
-$f3->route('GET /createaccount', function () {
+$f3->route('GET|POST /createaccount', function () {
     $GLOBALS['controller']->createAccount();
 });
 

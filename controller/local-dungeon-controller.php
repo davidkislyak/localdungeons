@@ -188,9 +188,10 @@ class LocalDungeonController
             $user = $_POST['username'];
             $password = $_POST['password'];
 
-            //TODO: Insert user
-//            $_SESSION['userId'] = $db->getUserId($user, $password);
-//            $_SESSION['username'] = $user;
+            //Insert user and assign session variables
+            $_SESSION['userId'] = $db->insertUser($user, $password);
+            $_SESSION['username'] = $user;
+
             $this->_f3->reroute('/');
         }
 

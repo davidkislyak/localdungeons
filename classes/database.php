@@ -53,7 +53,7 @@ class Database
     public function insertUser($user, $password)
     {
         //query
-        $sql = "INSERT INTO `users` (`username`,`password`) VALUES (:username, :password);";
+        $sql = "INSERT INTO `users` (`username`,`password`,`privilege_id`) VALUES (:username, :password, '1')";
 
         //statement
         $statement = $this->_dbh->prepare($sql);
