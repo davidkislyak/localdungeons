@@ -11,15 +11,16 @@ class LocalDungeonController
         $this->_db = new Database();
     }
 
-    public function test(){
+    public function test()
+    {
         $db = $this->_db;
 
 
         //initializes the search result array
         $searchResults = array();
 
-        $test = $db->search('Dungeons & Dragons 5E','Kent');
-        foreach ($test as $item){
+        $test = $db->search('Dungeons & Dragons 5E', 'Kent');
+        foreach ($test as $item) {
 
             //get tags from the database
             $tagArray = array();
@@ -35,32 +36,31 @@ class LocalDungeonController
             $time = $explode[1];
 
 
-
             //creates temp object
             $object = new Dnd($item['event_name'], 'host', $day, $time, $item['city'], $item['zip'],
-                 $item['street'], $item['genre_name'], $tagArray, $item['capacity']);
+                $item['street'], $item['genre_name'], $tagArray, $item['capacity']);
             $object->setNotes($item['event_description']);
 
             //Adds to the search results
             array_push($searchResults, $object);
         }
         //print results
-        foreach ($searchResults as $item){
-            echo '<br>'.$item->getName().'<br>';
-            echo $item->getGameName().'<br>';
-            echo $item->getHost().'<br>';
-            echo $item->getDate().'<br>';
-            echo $item->getTime().'<br>';
-            echo $item->getCity().'<br>';
-            echo $item->getZip().'<br>';
-            echo $item->getStreet().'<br>';
-            echo $item->getGenre().'<br>';
+        foreach ($searchResults as $item) {
+            echo '<br>' . $item->getName() . '<br>';
+            echo $item->getGameName() . '<br>';
+            echo $item->getHost() . '<br>';
+            echo $item->getDate() . '<br>';
+            echo $item->getTime() . '<br>';
+            echo $item->getCity() . '<br>';
+            echo $item->getZip() . '<br>';
+            echo $item->getStreet() . '<br>';
+            echo $item->getGenre() . '<br>';
 
-            foreach ($item->getTags() as &$tag){
-                echo $tag.', ';
+            foreach ($item->getTags() as &$tag) {
+                echo $tag . ', ';
             }
-            echo '<br>'.$item->getNotes().'<br>';
-            echo $item->getCapacity().'<br><br><br><br>';
+            echo '<br>' . $item->getNotes() . '<br>';
+            echo $item->getCapacity() . '<br><br><br><br>';
         }
         //DB connection
         $db = $this->_db;
@@ -94,7 +94,7 @@ class LocalDungeonController
 //            var_dump($_SESSION['eventGameSearch']);
 //            var_dump($_SESSION['eventCitySearch']);
 
-            $_SESSION['filter'] =NUll;
+            $_SESSION['filter'] = NUll;
             //Redirect to events
 
             $this->_f3->reroute('/events');
@@ -126,13 +126,12 @@ class LocalDungeonController
         }
 
         //If filter search
-        if($_SESSION['filter']==NULL){
+        if ($_SESSION['filter'] == NULL) {
             $f3->set('events', ($db->search(
                 $db->getGameName($_SESSION['eventGameSearch']), $_SESSION['eventCitySearch']))
             );
 
-        }
-        else {
+        } else {
             $f3->set('events', ($db->searchFilter(
                 $db->getGameName($_SESSION['eventGameSearch']), $_SESSION['eventCitySearch'],
                 $db->getGenreName($_SESSION['filter'])))
@@ -158,18 +157,20 @@ class LocalDungeonController
         $db = $this->_db;
         $view = new Template();
 
-        if($_POST['username'] && $_POST['password']){
+        if ($_POST['username'] && $_POST['password']) {
             $user = $_POST['username'];
             $password = $_POST['password'];
 
             $_SESSION['userId'] = $db->getUserId($user, $password);
+            $_SESSION['username'] = $user;
             $this->_f3->reroute('/');
         }
 
         echo $view->render('views/login.html');
     }
 
-    public function logout(){
+    public function logout()
+    {
         $_SESSION['userId'] = NULL;
 
         session_destroy();
@@ -201,10 +202,9 @@ class LocalDungeonController
         echo $view->render('views/createevent.html');
     }
 
-    public function account(){
+    public function account()
+    {
         $view = new Template();
-
-
 
         echo $view->render('views/myaccount.html');
     }
@@ -216,11 +216,12 @@ class LocalDungeonController
      * @param $game
      * @param $user_id
      */
-    private function addEvent($game, $user_id){
+    private function addEvent($game, $user_id)
+    {
         $db = $this->_db;
 
         $name = $game->getName();
-        $game_id = $db->getGameId(get_class($game).' '.$game->getEdition());
+        $game_id = $db->getGameId(get_class($game) . ' ' . $game->getEdition());
         $host = $game->getHost();
         $date = $game->getDate();
         $time = $game->getTime();
@@ -232,7 +233,7 @@ class LocalDungeonController
 
         $event_id = $db->insertEvent($game_id, $location_id, $genre, $name, $date, $capacity);
 
-        foreach($tags as $tag){
+        foreach ($tags as $tag) {
             $tag_id = $db->getTagId($tag);
             $db->addTag($event_id, $tag_id);
         }
@@ -240,13 +241,15 @@ class LocalDungeonController
         $this->register($user_id, $event_id, 'Host');
     }
 
-    private function register($user_id, $event_id, $privilege){
+    private function register($user_id, $event_id, $privilege)
+    {
         $db = $this->_db;
 
         $db->eventRegistration($user_id, $event_id, $privilege);
     }
 
-    private function location($game){
+    private function location($game)
+    {
         $db = $this->_db;
 
         $city = $game->getCity();
@@ -256,11 +259,12 @@ class LocalDungeonController
         return $db->insertLocation($city, $zip, $street);
     }
 
-    private function buildEvents() {
+    private function buildEvents()
+    {
         //initializes the search result array
         $searchResults = array();
 
-        foreach ($this->_f3->get('events') as $item){
+        foreach ($this->_f3->get('events') as $item) {
 
             //get tags from the database
             $tagArray = array();
