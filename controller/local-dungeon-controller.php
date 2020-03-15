@@ -76,8 +76,11 @@ class LocalDungeonController
 
     public function home()
     {
+
         $db = $this->_db;
         $view = new Template();
+
+        var_dump($_SESSION['userId']);
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //TODO: Validate Inputs
@@ -91,7 +94,9 @@ class LocalDungeonController
 //            var_dump($_SESSION['eventGameSearch']);
 //            var_dump($_SESSION['eventCitySearch']);
 
+            $_SESSION['filter'] =NUll;
             //Redirect to events
+
             $this->_f3->reroute('/events');
         }
 
@@ -115,17 +120,26 @@ class LocalDungeonController
         $view = new Template();
         $f3 = $this->_f3;
 
-//        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-//
-//        }
-        $f3->set('events', ($db->search(
-            $db->getGameName($_SESSION['eventGameSearch']), $_SESSION['eventCitySearch']))
-        );
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_SESSION['filter'] = $_POST['genre'];
+
+        }
 
         //If filter search
-        $f3->set('eventObjects', $this->searchFilter());
+        if($_SESSION['filter']==NULL){
+            $f3->set('events', ($db->search(
+                $db->getGameName($_SESSION['eventGameSearch']), $_SESSION['eventCitySearch']))
+            );
 
-        //If normal search
+        }
+        else {
+            $f3->set('events', ($db->searchFilter(
+                $db->getGameName($_SESSION['eventGameSearch']), $_SESSION['eventCitySearch'],
+                $db->getGenreName($_SESSION['filter'])))
+            );
+        }
+
+        //normal search
         $f3->set('eventObjects', $this->buildEvents());
 
         //Get dropdown params
@@ -144,15 +158,22 @@ class LocalDungeonController
         $db = $this->_db;
         $view = new Template();
 
-//        if($_POST['username'] && $_POST['password']){
-//            $user = $_POST['username'];
-//            $password = $_POST['password'];
-//
-//            $user_id = $db->getUserId($user, $password);
-//            $f3->reroute('/');
-//        }
+        if($_POST['username'] && $_POST['password']){
+            $user = $_POST['username'];
+            $password = $_POST['password'];
+
+            $_SESSION['userId'] = $db->getUserId($user, $password);
+            $this->_f3->reroute('/');
+        }
 
         echo $view->render('views/login.html');
+    }
+
+    public function logout(){
+        $_SESSION['userId'] = NULL;
+
+        session_destroy();
+        $this->_f3->reroute('/');
     }
 
     public function event($event_id)

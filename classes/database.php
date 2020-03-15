@@ -29,8 +29,8 @@ class Database
      */
     function connect()
     {
-//        require_once("../../../boiconfig.php");
-        require_once("../../connect_localdungeons.php");
+        require_once("../../../boiconfig.php");
+//        require_once("../../connect_localdungeons.php");
 
         try {
             //Instantiate a database object
@@ -242,7 +242,7 @@ class Database
 
     /**
      * gets game name from game id
-     * @param $game
+     * @param $id
      * @return mixed
      */
     function getGameName($id)
@@ -262,6 +262,27 @@ class Database
     }
 
     /**
+     * gets game name from game id
+     * @param $id
+     * @return mixed
+     */
+    function getGenreName($id)
+    {
+        $sql = "SELECT `genre_name` FROM `genres` WHERE `genre_id`=:id";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        $statement->bindParam(':id', $id, PDO::PARAM_STR);
+        //exe
+        $statement->execute();
+
+        $query = $statement->fetch();
+
+        return $query['genre_name'];
+    }
+
+    /**
      * gets the user id from the username and password
      * @param $user
      * @param $password
@@ -269,7 +290,7 @@ class Database
      */
     public function getUserId($user, $password)
     {
-        $sql = "SELECT `user_id` FROM `user` WHERE `username`=:username AND `password`=:password";
+        $sql = "SELECT `user_id` FROM `users` WHERE `username`=:username AND `password`=:password";
 
         //statement
         $statement = $this->_dbh->prepare($sql);

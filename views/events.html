@@ -46,23 +46,25 @@
 <!--                        <option value="other">Other/Homebrew</option>-->
 <!--                    </select>-->
 <!--                </div>-->
-                <div class="form-group">
-                    <label for="genre">Genre</label>
-                    <div class="border rounded">
-                        <select id="genre" name="genre" class="form-control mr-3">
-                        <option value="none">-- Select a Genre --</option>
-                        <F3:repeat group="{{ @genres }}" value="{{ @genre }}">
-                            <option value="{{ @genre['genre_id'] }}">
-<!--                            <F3:check if="{{ @game['genre_id'] == null }}">-->
-<!--                                selected="selected"-->
-<!--                            </F3:check>>-->
-                            {{ @genre['genre_name'] }}</option>
-                        </F3:repeat>
-                        </select>
+                <form action="#" method="post">
+                    <div class="form-group">
+                        <label for="genre">Genre</label>
+                        <div class="border rounded">
+                            <select id="genre" name="genre" class="form-control mr-3">
+                            <option value="none">-- Select a Genre --</option>
+                            <F3:repeat group="{{ @genres }}" value="{{ @genre }}">
+                                <option value="{{ @genre['genre_id'] }}"
+                                <F3:check if="{{ @SESSION['filter'] == @genre['genre_id'] }}">
+                                    selected="selected"
+                                </F3:check>>
+                                {{ @genre['genre_name'] }}</option>
+                            </F3:repeat>
+                            </select>
+                        </div>
+                        <br>
+                        <button class="btn btn-primary rounded w-100" type="submit" id="filter-button">Filter</button>
                     </div>
-                    <br>
-                    <button class="btn btn-primary rounded w-100" type="button" id="filter-button">Filter</button>
-                </div>
+                </form>
             </div>
             <div class="col-9">
                 <div class="container text-center" id="search-head">
