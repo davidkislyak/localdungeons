@@ -237,28 +237,42 @@ class LocalDungeonController
 
     public function registeredEvents()
     {
-        $view = new Template();
-        echo $view->render('views/myevents.html');
+        //check if user is logged in.
+        if (isset($_SESSION['userId'])) {
+            $view = new Template();
+            echo $view->render('views/myevents.html');
+        } else {
+            $this->_f3->reroute('/login');
+        }
     }
 
     public function createEvent()
     {
-        $db = $this->_db;
-        $view = new Template();
+        //check if user is logged in.
+        if (isset($_SESSION['userId'])) {
+            $db = $this->_db;
+            $view = new Template();
 
 //        if(post) {
 //          $game = new GenericGame(post post... post);
 //          addEvent($game, user_id);
 //            $db->insertEvent($game_id, $location_id, $genre_id, $name, $date, $capacity);
 //        }
-        echo $view->render('views/createevent.html');
+            echo $view->render('views/createevent.html');
+        } else {
+            $this->_f3->reroute('/login');
+        }
     }
 
     public function account()
     {
-        $view = new Template();
-
-        echo $view->render('views/myaccount.html');
+        //check if user is logged in.
+        if (isset($_SESSION['userId'])) {
+            $view = new Template();
+            echo $view->render('views/myaccount.html');
+        } else {
+            $this->_f3->reroute('/login');
+        }
     }
 
     //helper functions
