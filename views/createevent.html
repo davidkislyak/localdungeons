@@ -103,7 +103,7 @@
                             </div>
                             <div class="m-3" id="eventTags">
                             <repeat group="{{ @tags }}" value="{{ @tag }}">
-                                <label><input type="checkbox" name="tag[]" value="@tag['tag_id']">{{@tag['tag_name']}}
+                                <label><input type="checkbox" name="tag[]" value="{{@tag['tag_id']}}">{{@tag['tag_name']}}
                                 </label><br>
                             </repeat>
 <!--                                <label><input type="checkbox" value="43" checked> pizza</label><br>-->

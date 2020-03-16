@@ -67,7 +67,8 @@
                     </div>
                     <F3:repeat group="{{ @eventObjects }}" value="{{ @event }}">
                         <div class="container mb-5">
-                            <a href="./event/{{rawurlencode(@event->getName())}}"><h3><u>{{ @event->getName() }}</u> - {{@event->getDate() }}</h3></a>
+                            <a href="./event/{{rawurlencode(@event->getEventName())}}">
+                                <h3><u>{{ @event->getEventName() }}</u> - {{@event->getDate() }}</h3></a>
                             <div class="form-inline">
                                 <p class="pr-3 border-right">{{ @event->getZip() }}</p>
                                 <p class="pr-3 pl-3 border-right">{{ @event->getCity() }}</p>

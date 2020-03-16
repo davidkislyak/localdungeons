@@ -20,27 +20,8 @@
                 <h1 class="display-2"><b>My Events</b></h1>
             </div>
         </div>
-        <h4>Hosting</h4>
-        <F3:repeat group="{{ @hosted }}" value="{{ @event }}">
-            <div class="container mb-5">
-                <a href="./event/"><h3><u>{{ @event->getEventName() }}</u> - {{@event->getDate() }}</h3></a>
-                <div class="form-inline">
-                    <p class="pr-3 border-right">{{ @event->getZip() }}</p>
-                    <p class="pr-3 pl-3 border-right">{{ @event->getCity() }}</p>
-                    <p class="pr-3 pl-3">TODO: POST AGO</p>
-                </div>
-                <div>
-                    <p>{{ @event->getNotes() }}</p>
-                </div>
-                <div class="form-inline">
-                    <F3:repeat group="{{@event->getTags()}}" value="{{ @tag }}">
-                        <button class="btn-outline-primary rounded p-1 pr-2 mr-2">&#8226; {{ @tag }}</button>
-                    </F3:repeat>
-                </div>
-            </div>
-        </F3:repeat>
         <h4>Attending</h4>
-        <F3:repeat group="{{ @attended }}" value="{{ @event }}">
+        <F3:repeat group="{{ @attend }}" value="{{ @event }}">
             <div class="container mb-5">
                 <a href="./event/"><h3><u>{{ @event->getEventName() }}</u> - {{@event->getDate() }}</h3></a>
                 <div class="form-inline">
@@ -58,6 +39,25 @@
                 </div>
             </div>
         </F3:repeat>
+<!--        <h4>Attending</h4>-->
+<!--        <F3:repeat group="{{ @attended }}" value="{{ @event }}">-->
+<!--            <div class="container mb-5">-->
+<!--                <a href="./event/"><h3><u>{{ @event->getEventName() }}</u> - {{@event->getDate() }}</h3></a>-->
+<!--                <div class="form-inline">-->
+<!--                    <p class="pr-3 border-right">{{ @event->getZip() }}</p>-->
+<!--                    <p class="pr-3 pl-3 border-right">{{ @event->getCity() }}</p>-->
+<!--                    <p class="pr-3 pl-3">TODO: POST AGO</p>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <p>{{ @event->getNotes() }}</p>-->
+<!--                </div>-->
+<!--                <div class="form-inline">-->
+<!--                    <F3:repeat group="{{@event->getTags()}}" value="{{ @tag }}">-->
+<!--                        <button class="btn-outline-primary rounded p-1 pr-2 mr-2">&#8226; {{ @tag }}</button>-->
+<!--                    </F3:repeat>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </F3:repeat>-->
 </div>
 <include href="views/footer.html">
 </body>
