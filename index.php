@@ -64,7 +64,7 @@ $f3->route('GET /myevents', function () {
 });
 
 //define event creation page route
-$f3->route('GET /createevent', function () {
+$f3->route('GET|POST /createevent', function () {
     $GLOBALS['controller']->createEvent();
 });
 

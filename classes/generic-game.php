@@ -32,8 +32,8 @@ class GenericGame
      * @param string $_name Name of event
      * @param string $_gameName Type of game
      * @param $_host User who is hosing
-     * @param $_date Date that event is taking place
-     * @param $_time time that event is taking place.
+     * @param string $_date that event is taking place
+     * @param string $_time that event is taking place.
      * @param string $_city the city the event is taking place.
      * @param int $_zip the zip where the event is happening
      * @param string $_street the street where event is happening
