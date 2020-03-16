@@ -206,16 +206,24 @@ class LocalDungeonController
         $view = new Template();
 
         if ($_POST['username'] && $_POST['password']) {
-            //TODO: Validation
-
+            //Get from post
             $user = $_POST['username'];
             $password = $_POST['password'];
+            $passwordConfirm = $_POST['passwordConfirm'];
 
-            //Insert user and assign session variables
-            $_SESSION['userId'] = $db->insertUser($user, $password);
-            $_SESSION['username'] = $user;
+            //Set hive vars
+            $this->_f3->set("username", $user);
+            $this->_f3->set("password", $password);
+            $this->_f3->set("passwordConfirm", $passwordConfirm);
 
-            $this->_f3->reroute('/');
+            //Validation
+            if (validNewAccount()) {
+                //Insert user and assign session variables
+                $_SESSION['userId'] = $db->insertUser($user, $password);
+                $_SESSION['username'] = $user;
+
+                $this->_f3->reroute('/');
+            }
         }
 
         echo $view->render('views/createuser.html');
