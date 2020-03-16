@@ -10,8 +10,9 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <link rel="stylesheet" href="./styles/login.css">
+    <link rel="stylesheet" href="./styles/general.css">
 
-    <title>Local Dungeon Login</title>
+    <title>Local Dungeon New Account</title>
 </head>
 <body>
 <div class="sidenav">
@@ -32,17 +33,35 @@
         <div class="login-form">
             <form method="post">
                 <div class="form-group">
-                    <label>User Name</label>
-                    <input type="text" class="form-control" placeholder="User Name" id="username" name="username">
+                    <label>User Name<em>*</em></label>
+                    <input type="text" class="form-control" placeholder="User Name" id="username" name="username"
+                    <F3:check if="{{ @username }}">
+                        value="{{ @username }}"
+                    </F3:check>>
+                    <F3:check if="{{ @errors['username'] }}">
+                        <div class="err">{{ @errors['username'] }}</div>
+                    </F3:check>
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" class="form-control" placeholder="Password" id="password" name="password">
+                    <label>Password<em>*</em></label>
+                    <input type="password" class="form-control" placeholder="Password" id="password" name="password"
+                    <F3:check if="{{ @password }}">
+                        value="{{ @password }}"
+                    </F3:check>>
+                    <F3:check if="{{ @errors['password'] }}">
+                        <div class="err">{{ @errors['password'] }}</div>
+                    </F3:check>
                 </div>
                 <div class="form-group">
-                    <label>Confirm Password</label>
+                    <label>Confirm Password<em>*</em></label>
                     <input type="password" class="form-control" placeholder="Password"
-                       id="passwordConfirm" name="passwordConfirm">
+                       id="passwordConfirm" name="passwordConfirm"
+                    <F3:check if="{{ @passwordConfirm }}">
+                        value="{{ @passwordConfirm }}"
+                    </F3:check>>
+                    <F3:check if="{{ @errors['passwordconfirm'] }}">
+                        <div class="err">{{ @errors['passwordconfirm'] }}</div>
+                    </F3:check>
                 </div>
                 <div class="text-center">
                     <button type="submit" name="submit" value="Submit"

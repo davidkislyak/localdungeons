@@ -17,6 +17,11 @@ function validNewAccount()
         $f3->set("errors['password']", "Please enter a 8-128 long alpha numeric character password.");
     }
 
+    if ($f3->get('passwordConfirm') != $f3->get('password')) {
+        $isValid = false;
+        $f3->set("errors['passwordconfirm']", "Passwords do not match.");
+    }
+
     return $isValid;
 }
 
