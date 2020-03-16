@@ -29,8 +29,8 @@ class Database
      */
     function connect()
     {
-//        require_once("../../../boiconfig.php");
-        require_once("../../connect_localdungeons.php");
+        require_once("../../../boiconfig.php");
+//        require_once("../../connect_localdungeons.php");
 
         try {
             //Instantiate a database object
@@ -76,14 +76,15 @@ class Database
      * @param $name
      * @param $date
      * @param $capacity
+     * @param $notes
      * @return int - Id of the last inserted row.
      */
-    public function insertEvent($game_id, $location_id, $genre_id, $name, $date, $capacity)
+    public function insertEvent($game_id, $location_id, $genre_id, $name, $date, $capacity, $notes)
     {
         //query
-        $sql = "INSERT INTO `event` (`event_name`, `event_date`, `event_posting`, `location_id`, `genre_id`, `game_id`,
-                `capacity`)
-                VALUES (:event_name, :event_date, NOW(), :location_id, :genre_id, :game_id, :capacity);";
+        $sql = "INSERT INTO `event` (`event_name`, `event_date`, `location_id`, `genre_id`, `game_id`,
+                `capacity`, `event_description`)
+                VALUES (:event_name, :event_date, :location_id, :genre_id, :game_id, :capacity, :notes);";
 
         //statement
         $statement = $this->_dbh->prepare($sql);
@@ -95,6 +96,7 @@ class Database
         $statement->bindParam(':genre_id', $genre_id, PDO::PARAM_INT);
         $statement->bindParam(':game_id', $game_id, PDO::PARAM_INT);
         $statement->bindParam(':capacity', $capacity, PDO::PARAM_INT);
+        $statement->bindParam(':notes', $notes, PDO::PARAM_STR);
 
         //exe
         $statement->execute();
@@ -283,6 +285,28 @@ class Database
     }
 
     /**
+     * gets the username from id
+     * @param $user_id
+     * @return mixed
+     */
+    public function getUsername($user_id)
+    {
+        $sql = "SELECT `username` FROM `users` WHERE `user_id`=:id";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        $statement->bindParam(':id', $user_id, PDO::PARAM_STR);
+
+        //exe
+        $statement->execute();
+
+        $query = $statement->fetch();
+
+        return $query['username'];
+    }
+
+    /**
      * gets the user id from the username and password
      * @param $user
      * @param $password
@@ -418,6 +442,27 @@ class Database
     {
         $sql = "SELECT `tags`.tag_name FROM `tags` INNER JOIN `event_tags` ON 
             `event_tags`.tag_id = `tags`.tag_id AND `event_tags`.`event_id` = :event_id";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        $statement->bindParam(':event_id', $event_id, PDO::PARAM_STR);
+
+        //exe
+        $statement->execute();
+
+        //result
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * gets all tags associated with an event
+     * @param $event_id
+     * @return mixed
+     */
+    public function fetchTagsTable()
+    {
+        $sql = "SELECT * FROM `tags`";
 
         //statement
         $statement = $this->_dbh->prepare($sql);

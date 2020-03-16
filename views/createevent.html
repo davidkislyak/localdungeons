@@ -20,36 +20,39 @@
                     <h1 class="display-2"><b>Create an Event</b></h1>
                 </div>
             </div>
+            <form action="#" method="post">
             <fieldset class="form-group">
                 <div class="row">
                     <legend>Game Information</legend>
                     <!--row for first,middle and last name-->
                     <div class="form-group col-sm-12 col-md-4">
                         <label for="eventName"> Event Name<em>*</em> </label>
-                        <input type="text" class="form-control general" name="eventName" id="eventName">
+                        <input type="text" class="form-control general" name="eventName" id="eventName"/>
                         <span class="err" id="err-ename">
                             Please enter your event name</span>
                     </div>
                     <div class="form-group col-sm-6 col-md-4">
                         <label for="gameType"> Game<em>*</em> </label>
-                        <select class="form-control general" id="gameType">
-                            <option value="none">--Select a game--</option>
-                            <option value="1">Dungeons & Dragons</option>
-                            <option value="2">Magic The Gathering</option>
-                            <option value="3">Settlers Of Catan</option>
-                            <option value="4">Warhammer</option>
-                            <option value="4">Other/Homebrew</option>
+                        <select class="form-control general" name="gameType" id="gameType">
+                            <option value="none">-- Select a Game --</option>
+                            <F3:repeat group="{{ @games }}" value="{{ @game }}">
+                                <option value="{{ @game['game_id'] }}">{{ @game['game_name'] }}</option>
+                            </F3:repeat>
                         </select>
                         <span class="err" id="err-gtype">
                             Please select your game type</span>
                     </div>
                     <div class="form-group col-sm-6 col-md-4">
                         <label for="eventGenre"> Genre<em>*</em> </label>
-                        <select class="form-control general" id="eventGenre">
-                            <option value="none">--Select a genre--</option>
-                            <option value="1">Cyberpunk</option>
-                            <option value="2">Medieval</option>
-                            <option value="3">Retro</option>
+                        <select class="form-control general" name="eventGenre" id="eventGenre">
+                            <option value="none">-- Select a Genre --</option>
+                            <F3:repeat group="{{ @genres }}" value="{{ @genre }}">
+                                <option value="{{ @genre['genre_id'] }}">
+<!--                                <F3:check if="{{ @SESSION['filter'] == @genre['genre_id'] }}">-->
+<!--                                    selected="selected"-->
+<!--                                </F3:check>-->
+                                {{ @genre['genre_name'] }}</option>
+                            </F3:repeat>
                         </select>
                         <span class="err" id="err-genre">
                             Please select your game type</span>
@@ -58,28 +61,35 @@
                 <div class="row">
                     <legend>Event Location</legend>
                     <div class="form-group col-sm-6 col-md-3">
-                        <label for="eventName"> Zipcode<em>*</em> </label>
+                        <label for="zip"> Zipcode<em>*</em> </label>
                         <input type="text" class="form-control general" name="zip" id="zip">
                         <span class="err" id="err-zip">
                             Please enter a valid zipcode</span>
                     </div>
                     <div class="form-group col-sm-6 col-md-3">
-                        <label for="eventName"> City<em>*</em> </label>
-                        <input type="text" class="form-control general" name="eventName" id="eventName">
+                        <label for="city"> City<em>*</em> </label>
+                        <input type="text" class="form-control general" name="city" id="city">
                         <span class="err" id="err-city">
                             Please enter a city</span>
                     </div>
                     <div class="form-group col-sm-12 col-md-6">
-                        <label for="eventName"> Street<em>*</em> </label>
-                        <input type="text" class="form-control general" name="eventName" id="eventName">
+                        <label for="street"> Street<em>*</em> </label>
+                        <input type="text" class="form-control general" name="street" id="street">
                         <span class="err" id="err-street">
                             Please a street address</span>
                     </div>
                 </div>
                 <div class="row">
+                    <legend>Event Time</legend>
+                    <div class="form-group col-sm-3 col-md-3">
+                        <label for="datetime">Date & Time<em>*</em></label>
+                        <input type="datetime-local" class="form-control general" id="datetime" name="datetime">
+                    </div>
+                </div>
+                <div class="row">
                     <legend>Event Information</legend>
                     <div class="form-group col-sm-12 col-md-6">
-                        <label for="eventTags"> Event Description<em>*</em> </label>
+                        <label for="eventDescription"> Event Description<em>*</em> </label>
                         <textarea class="w-100 h-75 rounded" name="eventDescription" id="eventDescription"></textarea>
                     </div>
                     <div class="form-group col-sm-9 col-md-3">
@@ -92,22 +102,28 @@
                                 </div>
                             </div>
                             <div class="m-3" id="eventTags">
-                                <label><input type="checkbox" value="43" checked> pizza</label><br>
-                                <label><input type="checkbox" value="89" checked> drinks</label><br>
-                                <label><input type="checkbox" value="6" checked> dnd</label><br>
+                            <repeat group="{{ @tags }}" value="{{ @tag }}">
+                                <label><input type="checkbox" name="tag[]" value="@tag['tag_id']">{{@tag['tag_name']}}
+                                </label><br>
+                            </repeat>
+<!--                                <label><input type="checkbox" value="43" checked> pizza</label><br>-->
+<!--                                <label><input type="checkbox" value="89" checked> drinks</label><br>-->
+<!--                                <label><input type="checkbox" value="6" checked> dnd</label><br>-->
                             </div>
                         </div>
                     </div>
                     <div class="form-group col-sm-3 col-md-3">
                         <label for="eventCapacity"> Event Capacity<em>*</em> </label>
-                        <input type="number" class="form-control" placeholder="Ex. 3" id="eventCapacity">
+                        <input type="number" class="form-control" placeholder="Ex. 3"
+                               name="eventCapacity" id="eventCapacity" min="0">
                     </div>
                 </div>
             </fieldset>
             <div class="d-flex justify-content-center align-items-center">
-                <button class="btn-primary rounded w-75">Create Event</button>
+                <button class="btn-primary rounded w-75" type="submit">Create Event</button>
             </div>
         </div>
+        </form>
 </div>
 <include href="views/footer.html">
 </body>
