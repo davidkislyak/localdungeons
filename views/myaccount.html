@@ -10,6 +10,7 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="./styles/general.css">
 
     <title>Local Dungeons - Profile</title>
 </head>
@@ -23,18 +24,28 @@
     </div>
     <div class="container w-75">
         <p>Username: <u>{{ @SESSION['username'] }}</u></p>
-        <p>Password: </p>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">New Password</span>
+        <form action="#" method="post">
+            <p>Password: </p>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">New Password</span>
+                </div>
+                <input type="password" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-default" id="password" name="password">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Confirm Password</span>
+                </div>
+                <input type="password" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-default" id="passwordConfirm" name="passwordConfirm">
             </div>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Confirm Password</span>
-            </div>
-            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-        </div>
-        <button class="btn btn-primary center">Update Info</button>
+            <F3:check if="{{ @errors['password'] }}">
+                <div class="err">{{ @errors['password'] }}</div>
+            </F3:check>
+            <F3:check if="{{ @errors['passwordconfirm'] }}">
+                <div class="err">{{ @errors['passwordconfirm'] }}</div>
+            </F3:check>
+            <button class="btn btn-primary center" type="submit">Update Info</button>
+        </form>
     </div>
 </div>
 <F3:include href="views/footer.html"/>

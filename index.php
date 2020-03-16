@@ -44,7 +44,7 @@ $f3->route('GET /logout', function () {
 });
 
 //define a profile route
-$f3->route('GET /myaccount', function () {
+$f3->route('GET|POST /myaccount', function () {
     $GLOBALS['controller']->account();
 });
 

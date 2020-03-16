@@ -69,6 +69,30 @@ class Database
     }
 
     /**
+     * updates user password in the database
+     * @param $user the users id
+     * @param $password the users new password
+     * @return boolean - bool containing success flag
+     */
+    public function updateUserPassword($user, $password)
+    {
+        //query
+        $sql = "UPDATE `users` SET `password` = :password WHERE `users`.`user_id` = :username";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        //bind
+        $statement->bindParam(':password', $password, PDO::PARAM_STR);
+        $statement->bindParam(':username', $user, PDO::PARAM_INT);
+
+        //exe
+        $statement->execute();
+
+        return true;
+    }
+
+    /**
      * inserts an event created by the user into the event table.
      * @param $game_id
      * @param $location_id

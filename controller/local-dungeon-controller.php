@@ -268,6 +268,20 @@ class LocalDungeonController
     {
         //check if user is logged in.
         if (isset($_SESSION['userId'])) {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $password = $_POST['password'];
+                $passwordConfirm = $_POST['passwordConfirm'];
+
+                //add data to hive
+                $this->_f3->set('password', $password);
+                $this->_f3->set('passwordConfirm', $passwordConfirm);
+
+                //check if valid
+                if (validNewPassword()) {
+                    $this->_db->updateUserPassword($_SESSION['userId'], $this->_f3->get('password'));
+                }
+            }
+
             $view = new Template();
             echo $view->render('views/myaccount.html');
         } else {
