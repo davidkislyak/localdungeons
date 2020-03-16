@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/localdungeons">
+    <a class="navbar-brand" href="/it328/localdungeons">
         <F3:check if="{{ isset(@page) }}">
             <F3:true>
                 <img src="../images/blue_80s_action_logo.png" height="50" width="250" alt="Local Dungeons logo"/>
@@ -17,14 +17,13 @@
         <span class="navbar-nav mr-auto mt-2 mt-lg-0"></span>
         <form class="form-inline my-2 my-lg-0">
 <!--            <a><button class="btn my-2">Create Event</button></a>-->
-            <a class="btn my-2" href="./createevent">Create Event</a>
-            <a class="btn my-2 my-sm-0 pl-0" href="./myevents">My Events</a>
+            <a class="btn my-2" href="/it328/localdungeons/createevent">Create Event</a>
+            <a class="btn my-2 my-sm-0 pl-0" href="/it328/localdungeons/myevents">My Events</a>
             <div class="border-left">
-                <a class="btn my-2 my-sm-0" href="./myaccount">My Account</a>
+                <a class="btn my-2 my-sm-0" href="/it328/localdungeons/myaccount">My Account</a>
                 <check if="@SESSION['userId'] == null">
-                    <true><a class="btn btn-primary my-2 my-sm-0" href="./login">Login</a></true>
-                    <false><a class="btn btn-danger my-2 my-sm-0" href="/localdungeons/logout">Logout</a></false>
-<!--                    <false><a class="btn btn-danger my-2 my-sm-0" href="/it328/localdungeons/logout">Logout</a></false>-->
+                    <true><a class="btn btn-primary my-2 my-sm-0" href="/it328/localdungeons/login">Login</a></true>
+                    <false><a class="btn btn-danger my-2 my-sm-0" href="/it328/localdungeons/logout">Logout</a></false>
                 </check>
             </div>
         </form>
