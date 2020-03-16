@@ -15,10 +15,7 @@ class LocalDungeonController
     {
         $db = $this->_db;
 
-        var_dump($db->fetchTagsTable());
 
-
-        echo'<br><br>';
         //initializes the search result array
         $searchResults = array();
 
@@ -71,7 +68,7 @@ class LocalDungeonController
 
         //Get events with search query
         $f3 = $this->_f3;
-        $f3->set('events', ($db->search('Dungeons & Dragons 5E', 'Kent')));
+        $f3->set('events', ($db->search('Dungeons & Dragons 5E', 'kent')));
 
         //Render page
         echo $view->render('views/testevents.html');
@@ -124,18 +121,30 @@ class LocalDungeonController
         $f3 = $this->_f3;
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_SESSION['filter'] = $_POST['genre'];
+            //TODO: Validate Inputs
+            if (in_array($_POST['genre'], $db->fetchGenres())) {
+                $_SESSION['filter'] = NULL;
+            } else {
+                $_SESSION['filter'] = $_POST['genre'];
+            }
 
+            //Assign search to session.
+            $_SESSION['eventGameSearch'] = $_POST['gameSearch'];
+            $_SESSION['eventCitySearch'] = $_POST['citySearch'];
+            $_SESSION['eventGameSearchName'] = $db->getGameName($_POST['gameSearch']);
+
+            //Session dumps
+            var_dump($_SESSION['eventGameSearch']);
+            var_dump($_SESSION['eventCitySearch']);
         }
 
         //If filter search
-        if ($_SESSION['filter'] == NULL) {
+        if ($_SESSION['filter'] == NULL OR $_SESSION['filter'] == 'none') {
             $f3->set('events', ($db->search(
                 $db->getGameName($_SESSION['eventGameSearch']), $_SESSION['eventCitySearch']))
             );
 
-        }
-        else {
+        } else {
             $f3->set('events', ($db->searchFilter(
                 $db->getGameName($_SESSION['eventGameSearch']), $_SESSION['eventCitySearch'],
                 $db->getGenreName($_SESSION['filter'])))
@@ -217,37 +226,7 @@ class LocalDungeonController
     public function createEvent()
     {
         $db = $this->_db;
-        $f3 = $this->_f3;
         $view = new Template();
-
-        $result = $db->fetchTagsTable();
-        $tags = array();
-        foreach ($result as $tag){
-            array_push($tags, $tag);
-        }
-
-        $f3->set('tags', $tags);
-
-        //Get dropdown params
-        $f3->set('games', $db->fetchGames());
-        $f3->set('genres', $db->fetchGenres());
-
-        if ($_POST['eventName'] && $_POST['datetime'] && $_POST['city'] && $_POST['zip'] && $_POST['street'] &&
-            $_POST['eventGenre'] && $_POST['eventCapacity']) {
-            $game = $db->getGameName($_POST['gameType']);
-
-            $explodeName = explode(" ", $game);
-            $explodeDate = explode("T", $_POST['datetime']);
-            $test = new Dnd($_POST['eventName'], $db->getUsername($_SESSION['userId']), $explodeDate[0], $explodeDate[1],
-                $_POST['city'], $_POST['zip'], $_POST['street'], $_POST['eventGenre'], $_POST['tag'],
-                $_POST['eventCapacity'], $explodeName[3]);
-            $test->setNotes($_POST['eventDescription']);
-
-            var_dump($test);
-            var_dump($test->getDate().' '.$test->getTime().':00');
-            $this->addEvent($test, $_SESSION['userId']);
-            //$f3->reroute('/myevents');
-        }
 
 //        if(post) {
 //          $game = new GenericGame(post post... post);
@@ -269,23 +248,24 @@ class LocalDungeonController
     /**
      * registers a new event in the database
      * @param $game
-     * @param $user_id int
+     * @param $user_id
      */
     private function addEvent($game, $user_id)
     {
         $db = $this->_db;
 
         $name = $game->getName();
-        $game = $db->getGameId(($game->getGameName().' '.$game->getEdition()));
-        $date = $game::getDate().' '.$game->getTime().':00';
-        $location_id = $db->insertLocation($game->getCity(), $game->getZip(), $game->getStreet());
+        $game_id = $db->getGameId(get_class($game) . ' ' . $game->getEdition());
+        $host = $game->getHost();
+        $date = $game->getDate();
+        $time = $game->getTime();
+        $location_id = $this->location($game);
         $capacity = $game->getCapacity();
         $genre = $db->getGenreId($game->getGenre());
         $tags = $game->getTags();
         $notes = $game->getNotes();
 
-        $event_id = $db->insertEvent($game['game_id'], $location_id, $genre['genre_id'],
-            $name, $date, $capacity, $notes);
+        $event_id = $db->insertEvent($game_id, $location_id, $genre, $name, $date, $capacity);
 
         foreach ($tags as $tag) {
             $tag_id = $db->getTagId($tag);
@@ -335,7 +315,7 @@ class LocalDungeonController
 
             //creates temp object
             $object = new Dnd($item['event_name'], 'host', $day, $time, $item['city'], $item['zip'],
-                    $item['street'], $item['genre_name'], $tagArray, $item['capacity']);
+                $item['street'], $item['genre_name'], $tagArray, $item['capacity']);
             $object->setNotes($item['event_description']);
 
             //Adds to the search results
