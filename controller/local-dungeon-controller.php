@@ -327,10 +327,11 @@ class LocalDungeonController
             $db = $this->_db;
             $view = new Template();
 
-        $result = $db->fetchTagsTable();
-        $tags = array();
-        foreach ($result as $tag){
-            array_push($tags, $tag);
+            $result = $db->fetchTagsTable();
+            $tags = array();
+            foreach ($result as $tag) {
+                array_push($tags, $tag);
+            }
         }
     }
 
