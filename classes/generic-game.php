@@ -12,7 +12,7 @@
 
 class GenericGame
 {
-    private $_name;
+    private $_eventName;
     private $_gameName;
     private $_host;
     private $_date;
@@ -29,7 +29,7 @@ class GenericGame
 
     /**
      * generic-game constructor.
-     * @param string $_name Name of event
+     * @param string $_eventName Name of event
      * @param string $_gameName Type of game
      * @param $_host User who is hosing
      * @param string $_date that event is taking place
@@ -42,10 +42,10 @@ class GenericGame
      * @param array $_tags the tags describing the event
      * @param string $_capacity the max capacity of the event
      */
-    public function __construct($_gameName, $_name, $_host, $_date, $_time, $_city, $_zip, $_street,
+    public function __construct($_gameName, $_eventName, $_host, $_date, $_time, $_city, $_zip, $_street,
                                 $_genre, $_type ='RPG', $_tags =array(), $_capacity='0')
     {
-        $this->_name = $_name;
+        $this->_eventName = $_eventName;
         $this->_gameName = $_gameName;
         $this->_host = $_host;
         $this->_date = $_date;
@@ -63,9 +63,9 @@ class GenericGame
     /**
      * @return string
      */
-    public function getName()
+    public function getEventName()
     {
-        return $this->_name;
+        return $this->_eventName;
     }
 
     /**
@@ -176,9 +176,9 @@ class GenericGame
     /**
      * @param mixed $name
      */
-    public function setName($name)
+    public function setEventName($name)
     {
-        $this->_name = $name;
+        $this->_eventName = $name;
     }
 
     /**
