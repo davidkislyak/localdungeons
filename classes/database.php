@@ -44,6 +44,7 @@ class Database
     }
 
     //Insert methods
+
     /**
      * adds user to the database
      * @param $user
@@ -129,6 +130,27 @@ class Database
     }
 
     /**
+     *
+     */
+    public function getEventId($name)
+    {
+        //query
+        $sql = "SELECT `event_id` FROM `event` WHERE `event_name` = :name";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        //bind
+        $statement->bindParam(':name', $name, PDO::PARAM_STR);
+
+        //exe
+        $statement->execute();
+
+        $query = $statement->fetch();
+        return $query;
+    }
+
+    /**
      * inserts a location into the event_location table.
      * @param $city
      * @param $zip
@@ -192,11 +214,34 @@ class Database
 
         //bind
         $statement->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-        $statement->bindParam(':user_id', $event_id, PDO::PARAM_INT);
+        $statement->bindParam(':event_id', $event_id, PDO::PARAM_INT);
         $statement->bindParam(':privilege', $privilege, PDO::PARAM_INT);
 
         //exe
         return $statement->execute();
+    }
+
+    /**
+     * Returns back a list of people who signed up for the event
+     *
+     * @param $event_id the event you are getting the rsvp list from
+     */
+    function getEventRsvp($event_id)
+    {
+        $sql = "SELECT `user_id` FROM `event_registration` WHERE `event_id` = :event_id";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        //bind
+        $statement->bindParam(':event_id', $event_id, PDO::PARAM_INT);
+
+        //exe
+//        return $statement->execute();
+        $statement->execute();
+
+        $query = $statement->fetch();
+        return $query;
     }
 
     /**
@@ -434,7 +479,8 @@ class Database
      * @param $filter
      * @return mixed
      */
-    public function searchFilter($game, $city, $filter){
+    public function searchFilter($game, $city, $filter)
+    {
         $sql = "SELECT event.event_id, event.event_name, event_location.city, event_location.zip,
                 event_location.street, game.game_name, genres.genre_name, event.event_date, 
                 event.event_posting, event.event_description FROM event

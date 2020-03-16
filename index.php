@@ -54,7 +54,7 @@ $f3->route('GET|POST /createaccount', function () {
 });
 
 //define the event page route
-$f3->route('GET /event/@event_id', function ($f3, $params) {
+$f3->route('GET|POST /event/@event_id', function ($f3, $params) {
     $f3->set("page", "event");
     $GLOBALS['controller']->event($params['event_id']);
 });

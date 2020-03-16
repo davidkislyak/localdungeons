@@ -79,8 +79,6 @@ class LocalDungeonController
         $db = $this->_db;
         $view = new Template();
 
-        var_dump($_SESSION['userId']);
-
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //TODO: Validate Inputs
 
@@ -120,7 +118,7 @@ class LocalDungeonController
         $f3 = $this->_f3;
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //TODO: Validate Inputs
+            //Validate Inputs
             if (in_array($_POST['genre'], $db->fetchGenres())) {
                 $_SESSION['filter'] = NULL;
             } else {
@@ -150,8 +148,12 @@ class LocalDungeonController
             );
         }
 
-        //normal search
+        //search
         $f3->set('eventObjects', $this->buildEvents());
+
+        //save found events to session for use later
+        $_SESSION['eventObjects'] = $f3->get('eventObjects');
+//        var_dump($_SESSION['eventObjects']);
 
         //Get dropdown params
         $f3->set('games', $db->fetchGames());
@@ -162,6 +164,76 @@ class LocalDungeonController
 //        $db->fetchTags($event_id);
 
         echo $view->render('views/events.html');
+    }
+
+    public function event($event_id)
+    {
+        //if a submit button is clicked
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //TODO: validate inputs
+
+            //tmp hive vars
+            $this->_f3->set('newRsvp', $_POST['rsvp']);
+
+            echo 'New: ' . $_POST['rsvp'] . ' | ' . ' Current: ' . $this->_f3->get('rsvp');
+
+            //check if any changes to rsvp where made
+            if ($this->_f3->get('rsvp') != $this->_f3->get('newRsvp')) {
+                //rsvp status changed, post status was triggered by rsvp button.
+                //check if user is logged in.
+                if (!isset($_SESSION['userId'])) {
+                    $this->_f3->reroute('/login');
+                } else {
+                    //update rsvp
+                    $this->_f3->set('rsvp', 'going');
+
+                    $_SESSION['rsvp'] = true;
+
+                    //update rsvp list in db
+                    $this->_db->eventRegistration($_SESSION['userId'],
+                        $this->_db->getEventId(($_SESSION['eventObjectPost']->getName())));
+                }
+            } else {
+                //rsvp status has not changed, post status triggered by search button.
+                //Assign search to session.
+                $_SESSION['eventGameSearch'] = $_POST['gameSearch'];
+                $_SESSION['eventCitySearch'] = $_POST['citySearch'];
+                $_SESSION['eventGameSearchName'] = $this->_db->getGameName($_POST['gameSearch']);
+
+                $_SESSION['filter'] = NUll;
+
+                //Redirect to events
+                $this->_f3->reroute('/events');
+            }
+        }
+
+        //set hive vars
+        $this->_f3->set('eventEncode', $event_id);
+        $this->_f3->set('games', $this->_db->fetchGames());
+        $this->_f3->set('rsvp', null);
+
+        //find desired event object
+        foreach ($_SESSION['eventObjects'] as $event) {
+            if ($this->_f3->get('eventEncode') == $event->getName()) {
+                //assign event to hive
+                $this->_f3->set('eventObject', $event);
+
+                //for use in post
+                $_SESSION['eventObjectPost'] = $event;
+            }
+        }
+
+        //check if already rsvp'd
+        foreach ($this->_db->getEventRsvp(
+                     $this->_db->getEventId(($_SESSION['eventObjectPost']->getName()))) as $user) {
+            if ($user == $_SESSION['userId']) {
+                $this->_f3->set('rsvp', 'going');
+                $_SESSION['rsvp'] = 'going';
+            }
+        }
+
+        $view = new Template();
+        echo $view->render('views/event.html');
     }
 
     public function login()
@@ -227,12 +299,6 @@ class LocalDungeonController
         }
 
         echo $view->render('views/createuser.html');
-    }
-
-    public function event($event_id)
-    {
-        $view = new Template();
-        echo $view->render('views/event.html');
     }
 
     public function registeredEvents()
