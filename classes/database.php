@@ -107,9 +107,9 @@ class Database
     public function insertEvent($game_id, $location_id, $genre_id, $name, $date, $capacity, $notes)
     {
         //query
-        $sql = "INSERT INTO `event` (`event_name`, `event_date`, `location_id`, `genre_id`, `game_id`,
-                `capacity`, `event_description`)
-                VALUES (:event_name, :event_date, :location_id, :genre_id, :game_id, :capacity, :notes);";
+        $sql = "INSERT INTO `event`(`event_name`, `event_date`, `event_description`, `location_id`,
+                `genre_id`, `game_id`, `capacity`)
+                VALUES (:event_name, :event_date,  :notes, :location_id, :genre_id, :game_id, :capacity)";
 
         //statement
         $statement = $this->_dbh->prepare($sql);
@@ -117,11 +117,12 @@ class Database
         //bind
         $statement->bindParam(':event_name', $name, PDO::PARAM_STR);
         $statement->bindParam(':event_date', $date, PDO::PARAM_STR);
+        $statement->bindParam(':notes', $notes, PDO::PARAM_STR);
         $statement->bindParam(':location_id', $location_id, PDO::PARAM_INT);
         $statement->bindParam(':genre_id', $genre_id, PDO::PARAM_INT);
         $statement->bindParam(':game_id', $game_id, PDO::PARAM_INT);
         $statement->bindParam(':capacity', $capacity, PDO::PARAM_INT);
-        $statement->bindParam(':notes', $notes, PDO::PARAM_STR);
+
 
         //exe
         $statement->execute();
@@ -168,7 +169,7 @@ class Database
         //bind
         $statement->bindParam(':city', $city, PDO::PARAM_STR);
         $statement->bindParam(':zip', $zip, PDO::PARAM_STR);
-        $statement->bindParam(':zip', $street, PDO::PARAM_STR);
+        $statement->bindParam(':street', $street, PDO::PARAM_STR);
 
         //exe
         $statement->execute();
@@ -201,14 +202,14 @@ class Database
      * signs a user up for an event or marks a user as a host. (inserts into the event_registration table).
      * @param $user_id
      * @param $event_id
-     * @param int $privilege
+     * @param $privilege
      * @return true if successful
      */
-    function eventRegistration($user_id, $event_id, $privilege = 0)
+    function eventRegistration($user_id, $event_id, $privilege = 'Attendee')
     {
         //query
         $sql = "INSERT INTO `event_registration` (`user_id`, `event_id`, `event_privilege`)
-                VALUES (:user_id, :event_id, :privilege);";
+                VALUES (:user_id, :event_id, :privilege)";
         //statement
         $statement = $this->_dbh->prepare($sql);
 
@@ -444,6 +445,28 @@ class Database
     }
 
     /**
+     * gets a genre from the database based on the id
+     * @param $genre
+     * @return array
+     */
+    public function getGenreId($genre)
+    {
+        $sql = "SELECT `genre_id` FROM genres WHERE `genre_name`=:genre";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        $statement->bindParam(':genre', $genre, PDO::PARAM_STR);
+
+        //exe
+        $statement->execute();
+
+        $query = $statement->fetch();
+
+        return $query['genre_id'];
+    }
+
+    /**
      * search based on game and city inputs
      * @param $game
      * @param $city
@@ -574,6 +597,34 @@ class Database
 
         //statement
         $statement = $this->_dbh->prepare($sql);
+
+        //exe
+        $statement->execute();
+
+        //result
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    /**
+     * search based on game and city inputs with a filter(genre)
+     * @param $user_id
+     * @return mixed
+     */
+    public function registeredEvents($user_id){
+        $sql = "SELECT `event_registration`.`user_id`, `event_registration`.`event_privilege`, `event`.`event_id`,
+                `event`.`event_name`, `event_location`.`city`, `event_location`.`zip`, `event_location`.`street`,
+                `game`.`game_name`, `genres`.`genre_name`, `event`.`event_date`, `event`.`event_posting`,
+                `event`.`event_description` FROM `event`
+                    INNER JOIN `game` ON `game`.`game_id` = `event`.`game_id` 
+                    INNER JOIN `event_location` ON `event_location`.`location_id` = `event`.`location_id` 
+                    INNER JOIN `genres` ON `genres`.`genre_id` = `event`.`genre_id`
+                    INNER JOIN `event_registration` ON `event_registration`.`event_id` = `event`.`event_id`
+                    WHERE `user_id` = :id";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        $statement->bindParam(':id',$user_id,PDO::PARAM_INT);
 
         //exe
         $statement->execute();
