@@ -15,7 +15,6 @@ class LocalDungeonController
     {
         $db = $this->_db;
 
-
         //initializes the search result array
         $searchResults = array();
 
@@ -171,12 +170,23 @@ class LocalDungeonController
         $view = new Template();
 
         if ($_POST['username'] && $_POST['password']) {
+            //get from post
             $user = $_POST['username'];
             $password = $_POST['password'];
 
-            $_SESSION['userId'] = $db->getUserId($user, $password);
-            $_SESSION['username'] = $user;
-            $this->_f3->reroute('/');
+            //add data to hive
+            $this->_f3->set('username', $user);
+            $this->_f3->set('password', $password);
+
+            //validate info
+            if (validLogin($db)) {
+                //assign needed values to session
+                $_SESSION['userId'] = $db->getUserId($user, $password);
+                $_SESSION['username'] = $user;
+
+                //redirect to homepage
+                $this->_f3->reroute('/');
+            }
         }
 
         echo $view->render('views/login.html');

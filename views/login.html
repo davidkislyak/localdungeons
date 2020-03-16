@@ -10,6 +10,7 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <link rel="stylesheet" href="./styles/login.css">
+    <link rel="stylesheet" href="./styles/general.css">
 
     <title>Local Dungeon Login</title>
 </head>
@@ -31,14 +32,20 @@
 <div class="main">
     <div class="col-md-6 col-sm-12">
         <div class="login-form">
-            <form method="post">
+            <form action="#" method="post">
                 <div class="form-group">
-                    <label>User Name</label>
+                    <label>Username<em>*</em></label>
                     <input type="text" class="form-control" placeholder="User Name" id="username" name="username">
+                    <F3:check if="{{ @errors['login'] }}">
+                        <div class="err">{{ @errors['login'] }}</div>
+                    </F3:check>
                 </div>
                 <div class="form-group">
-                    <label>Password</label>
+                    <label>Password<em>*</em></label>
                     <input type="password" class="form-control" placeholder="Password" id="password" name="password">
+                    <F3:check if="{{ @errors['login'] }}">
+                        <div class="err">{{ @errors['login'] }}</div>
+                    </F3:check>
                 </div>
                 <div class="text-center">
                     <button type="submit" name="submit" value="Submit"
