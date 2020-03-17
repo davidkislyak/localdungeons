@@ -233,7 +233,6 @@ class LocalDungeonController
             $real_id = $this->_db->getEventId($event_id);
             $tags = array();
             foreach ($this->_db->fetchTags($real_id) as $tag) {
-
                 array_push($tags, $tag['tag_name']);
             }
 
@@ -247,9 +246,11 @@ class LocalDungeonController
                     'Attendee', $day, $time, $item['city'], $item['zip'],
                     $item['street'], $item['genre_name'], $tags, $item['capacity'], $item['event_description']);
             }
+          
             //assign event to hive
             $this->_f3->set('eventObject', $_SESSION['eventObjectPost']);
-
+                array_push($tags, $tag['tag_name']);
+            }
         }
         //check if already rsvp'd
         foreach ($this->_db->getEventRsvp(
