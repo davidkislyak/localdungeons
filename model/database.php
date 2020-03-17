@@ -151,6 +151,29 @@ class Database
         return $query['event_id'];
     }
 
+    public function getEvent($event_id)
+    {
+        //query
+        $sql = "SELECT event.event_id, event.event_name, event_location.city, event_location.zip,
+                event_location.street, game.game_name, genres.genre_name, event.event_date, 
+                event.event_posting, event.event_description FROM event
+                    INNER JOIN game ON game.game_id = event.game_id 
+                    INNER JOIN event_location ON event_location.location_id = event.location_id 
+                    INNER JOIN genres ON genres.genre_id = event.genre_id WHERE event.event_id =:id";
+
+        //statement
+        $statement = $this->_dbh->prepare($sql);
+
+        //bind
+        $statement->bindParam(':id', $event_id, PDO::PARAM_INT);
+
+        //exe
+        $statement->execute();
+
+        //result
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     /**
      * inserts a location into the event_location table.
      * @param $city

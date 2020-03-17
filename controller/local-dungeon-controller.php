@@ -46,6 +46,7 @@ class LocalDungeonController
 
             //Adds to the search results
             array_push($searchResults, $object);
+
         }
         //print results
         foreach ($searchResults as $item) {
@@ -153,12 +154,9 @@ class LocalDungeonController
     {
         //if a submit button is clicked
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //TODO: validate inputs
 
             //tmp hive vars
             $this->_f3->set('newRsvp', $_POST['rsvp']);
-
-            echo 'New: ' . $_POST['rsvp'] . ' | ' . ' Current: ' . $this->_f3->get('rsvp');
 
             //check if any changes to rsvp where made
             if ($this->_f3->get('rsvp') != $this->_f3->get('newRsvp')) {
@@ -195,17 +193,43 @@ class LocalDungeonController
         $this->_f3->set('games', $this->_db->fetchGames());
         $this->_f3->set('rsvp', null);
 
+        $found = false;
         //find desired event object
-        foreach ($_SESSION['eventObjects'] as $event) {
-            if ($this->_f3->get('eventEncode') == $event->getEventName()) {
-                //assign event to hive
-                $this->_f3->set('eventObject', $event);
+        if($_SESSION['eventObjects'] !=null) {
+            foreach ($_SESSION['eventObjects'] as $event) {
+                if ($this->_f3->get('eventEncode') == $event->getEventName()) {
+                    //assign event to hive
+                    $this->_f3->set('eventObject', $event);
 
-                //for use in post
-                $_SESSION['eventObjectPost'] = $event;
+                    //for use in post
+                    $_SESSION['eventObjectPost'] = $event;
+                    $found = true;
+                }
             }
         }
+        if($found == false) {
+            //event not found, create new event object
+            $real_id = $this->_db->getEventId($event_id);
+            $tags = array();
+            foreach ($this->_db->fetchTags($real_id) as $tag) {
 
+                array_push($tags, $tag['tag_name']);
+            }
+
+            $result = $this->_db->getEvent($real_id);
+
+            $explodeDate = explode(" ", $_POST['datetime']);
+            $day = $explodeDate[0];
+            $time = $explodeDate[1];
+            foreach ($result as $item){
+                $_SESSION['eventObjectPost'] = $this->buildObject($item['game_name'], $item['event_name'],
+                    'Attendee', $day, $time, $item['city'], $item['zip'],
+                    $item['street'], $item['genre_name'], $tags, $item['capacity'], $item['event_description']);
+            }
+            //assign event to hive
+            $this->_f3->set('eventObject', $_SESSION['eventObjectPost']);
+
+        }
         //check if already rsvp'd
         foreach ($this->_db->getEventRsvp(
                      $this->_db->getEventId(($_SESSION['eventObjectPost']->getEventName()))) as $user) {
@@ -289,8 +313,8 @@ class LocalDungeonController
         $db = $this->_db;
         $f3 = $this->_f3;
         $view = new Template();
-
-        $f3->set('events', ($db->registeredEvents($_SESSION['userId'])));
+        if (isset($_SESSION['userId'])) {
+            $f3->set('events', ($db->registeredEvents($_SESSION['userId'])));
 
 //        $hostArray = array();
 //        $attendArray = array();
@@ -306,10 +330,14 @@ class LocalDungeonController
 //
 //        $f3->set('hosted', $this->buildEvents($hostArray));
 //        $f3->set('attended', $this->buildEvents($attendArray));
-        $f3->set('attend', $this->buildEvents($f3->get('events')));
+            $f3->set('attend', $this->buildEvents($f3->get('events')));
 
 
-        echo $view->render('views/myevents.html');
+            echo $view->render('views/myevents.html');
+        }
+        else{
+            $f3->reroute('/login');
+        }
     }
 
     public function createEvent()
@@ -357,6 +385,9 @@ class LocalDungeonController
             }
 
             echo $view->render('views/createevent.html');
+        }
+        else{
+            $this->_f3->reroute('/login');
         }
     }
 
@@ -488,7 +519,34 @@ class LocalDungeonController
                 $street, $genre_name, $tagArray, $capacity);
             $object->setNotes($description);
         }
-
         return $object;
     }
+
+//    private function buildObjectFromId($id){
+////        $explodeGame = explode(" ", $game_name);
+//        $this->buildObject()
+//        $object = '';
+//        if(strpos($game_name, 'Dungeons & Dragons')===0) {
+//            $object = new Dnd($event_name, $privilege, $day, $time, $city, $zip,
+//                $street, $genre_name, $tagArray, $capacity);
+//            $object->setNotes($description);;
+//        }
+//        elseif(strpos($game_name, 'Magic the Gathering')===0) {
+//            $object = new Mtg($event_name, $privilege, $day, $time, $city, $zip,
+//                $street, $genre_name, $tagArray, $capacity);
+//            $object->setNotes($description);
+//        }
+//        elseif(strpos($game_name, 'Settlers of Catan')===0) {
+//            $object = new Soc($event_name, $privilege, $day, $time, $city, $zip,
+//                $street, $genre_name, $tagArray, $capacity);
+//            $object->setNotes($description);
+//        }
+//        elseif(strpos($game_name, 'Warhammer')===0) {
+//            $object = new Warhammer($event_name, $privilege, $day, $time, $city, $zip,
+//                $street, $genre_name, $tagArray, $capacity);
+//            $object->setNotes($description);
+//        }
+//
+//        return $object;
+//    }
 }
