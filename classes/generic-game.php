@@ -61,6 +61,7 @@ class GenericGame
 
     //getters
     /**
+     * getEventName() - getter for eventName.
      * @return string
      */
     public function getEventName()
@@ -69,6 +70,7 @@ class GenericGame
     }
 
     /**
+     * getGameName() - getter of gameName
      * @return string
      */
     public function getGameName()
@@ -77,6 +79,8 @@ class GenericGame
     }
 
     /**
+     * getHost() - getter of host (host has the value of 'Host' if the user is a host,
+     * and 'Attendee' if they are attending the event.
      * @return mixed
      */
     public function getHost()
@@ -85,6 +89,7 @@ class GenericGame
     }
 
     /**
+     * getDate() - getter of Date. The date is when the game/event takes place.
      * @return string
      */
     public function getDate()
@@ -93,6 +98,7 @@ class GenericGame
     }
 
     /**
+     * getTime() - getter of time. Time is the set time the game/event takes place.
      * @return string
      */
     public function getTime()
@@ -101,6 +107,7 @@ class GenericGame
     }
 
     /**
+     * getCity() - getter of city. the City that the game/event takes place.
      * @return string
      */
     public function getCity()
@@ -109,6 +116,7 @@ class GenericGame
     }
 
     /**
+     * getZip() - getter of zip. the Zip where the game/event takes place.
      * @return int
      */
     public function getZip()
@@ -117,6 +125,7 @@ class GenericGame
     }
 
     /**
+     * getStreet() - getter of street. the Street where the game/event takes place.
      * @return string
      */
     public function getStreet()
@@ -125,6 +134,7 @@ class GenericGame
     }
 
     /**
+     * getTags() - getter of the tags array. the Tags that are associated with the game/event.
      * @return array
      */
     public function getTags()
@@ -133,6 +143,7 @@ class GenericGame
     }
 
     /**
+     * getCapacity() - getter of Capacity. The max Capacity of the location.
      * @return string
      */
     public function getCapacity()
@@ -141,6 +152,7 @@ class GenericGame
     }
 
     /**
+     * getType() getter of Type. The type of game.
      * @return mixed
      */
     public function getType()
@@ -149,6 +161,7 @@ class GenericGame
     }
 
     /**
+     * getEdition() getter of Edition. The edition of the game (if applicable)
      * @return string
      */
     public function getEdition()
@@ -157,6 +170,7 @@ class GenericGame
     }
 
     /**
+     * getGenre() - getter of Genre. the Genre of the game.
      * @return mixed
      */
     public function getGenre()
@@ -165,6 +179,7 @@ class GenericGame
     }
 
     /**
+     * getNotes() - getter of Notes. Miscellaneous notes and/or description of the game/event.
      * @return mixed
      */
     public function getNotes()
@@ -174,6 +189,7 @@ class GenericGame
 
     //setters
     /**
+     * setEventName() - setter for eventName.
      * @param mixed $name
      */
     public function setEventName($name)
@@ -182,6 +198,7 @@ class GenericGame
     }
 
     /**
+     * setGameName() - getter for gameName.
      * @param mixed $gameName
      */
     public function setGameName($gameName)
@@ -190,6 +207,7 @@ class GenericGame
     }
 
     /**
+     * setHost() - setter for host.
      * @param mixed $host
      */
     public function setHost($host)
@@ -198,6 +216,7 @@ class GenericGame
     }
 
     /**
+     * setDate() - setter of Date.
      * @param mixed $date
      */
     public function setDate($date)
@@ -206,6 +225,7 @@ class GenericGame
     }
 
     /**
+     * setTime() - setter of Time.
      * @param mixed $time
      */
     public function setTime($time)
@@ -214,6 +234,7 @@ class GenericGame
     }
 
     /**
+     * setDate() - setter of City.
      * @param string $city
      */
     public function setCity($city)
@@ -222,6 +243,7 @@ class GenericGame
     }
 
     /**
+     * setZip() - setter of Zip.
      * @param int $zip
      */
     public function setZip($zip)
@@ -230,6 +252,7 @@ class GenericGame
     }
 
     /**
+     * setStreet() - setter of Street.
      * @param string $street
      */
     public function setStreet($street)
@@ -238,6 +261,7 @@ class GenericGame
     }
 
     /**
+     * setTags() - setter of the Tag array.
      * @param array $tags
      */
     public function setTags($tags)
@@ -246,6 +270,7 @@ class GenericGame
     }
 
     /**
+     * setCapacity() - setter of Capacity.
      * @param string $capacity
      */
     public function setCapacity($capacity)
@@ -254,6 +279,7 @@ class GenericGame
     }
 
     /**
+     * setType() - setter of Type.
      * @param mixed $type
      */
     public function setType($type)
@@ -262,6 +288,7 @@ class GenericGame
     }
 
     /**
+     * getEdition() - setter of the Edition.
      * @param string $edition
      */
     public function setEdition($edition)
@@ -270,6 +297,7 @@ class GenericGame
     }
 
     /**
+     * getGenre() - setter of genre.
      * @param mixed $genre
      */
     public function setGenre($genre)
@@ -278,6 +306,7 @@ class GenericGame
     }
 
     /**
+     * getNotes() - setter of Notes.
      * @param mixed $notes
      */
     public function setNotes($notes)

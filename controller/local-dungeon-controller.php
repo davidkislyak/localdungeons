@@ -5,12 +5,20 @@ class LocalDungeonController
     private $_f3; //Router
     private $_db; //database
 
+    /**
+     * LocalDungeonController constructor.
+     * Instantiates the Database class
+     * @param $f3
+     */
     public function __construct($f3)
     {
         $this->_f3 = $f3;
         $this->_db = new Database();
     }
 
+    /**
+     * Test class used for testing logic. (not actually used in the site.)
+     */
     public function test()
     {
         $db = $this->_db;
@@ -78,6 +86,10 @@ class LocalDungeonController
         echo $view->render('views/testevents.html');
     }
 
+    /**
+     * Default directory.
+     * Home page
+     */
     public function home()
     {
 
@@ -104,6 +116,9 @@ class LocalDungeonController
         echo $view->render('views/home.html');
     }
 
+    /**
+     * Events Function. Function controls the logic of the events page.
+     */
     public function events()
     {
         $db = $this->_db;
@@ -150,6 +165,11 @@ class LocalDungeonController
         echo $view->render('views/events.html');
     }
 
+    /**
+     * Event function. Allows the user to see a single event when clicked on from
+     * registered events and search.
+     * @param $event_id
+     */
     public function event($event_id)
     {
         //if a submit button is clicked
@@ -174,7 +194,8 @@ class LocalDungeonController
                     $this->_db->eventRegistration($_SESSION['userId'],
                         $this->_db->getEventId(($_SESSION['eventObjectPost']->getEventName())));
                 }
-            } else {
+            }
+            else {
                 //rsvp status has not changed, post status triggered by search button.
                 //Assign search to session.
                 $_SESSION['eventGameSearch'] = $_POST['gameSearch'];
@@ -212,7 +233,6 @@ class LocalDungeonController
             $real_id = $this->_db->getEventId($event_id);
             $tags = array();
             foreach ($this->_db->fetchTags($real_id) as $tag) {
-
                 array_push($tags, $tag['tag_name']);
             }
 
@@ -226,9 +246,11 @@ class LocalDungeonController
                     'Attendee', $day, $time, $item['city'], $item['zip'],
                     $item['street'], $item['genre_name'], $tags, $item['capacity'], $item['event_description']);
             }
+          
             //assign event to hive
             $this->_f3->set('eventObject', $_SESSION['eventObjectPost']);
-
+                array_push($tags, $tag['tag_name']);
+            }
         }
         //check if already rsvp'd
         foreach ($this->_db->getEventRsvp(
@@ -243,6 +265,9 @@ class LocalDungeonController
         echo $view->render('views/event.html');
     }
 
+    /**
+     * login function. Allows the user to login.
+     */
     public function login()
     {
         $db = $this->_db;
@@ -271,6 +296,9 @@ class LocalDungeonController
         echo $view->render('views/login.html');
     }
 
+    /**
+     * logout function. Allows the user to logout via session_destroy
+     */
     public function logout()
     {
         $_SESSION['userId'] = NULL;
@@ -279,6 +307,9 @@ class LocalDungeonController
         $this->_f3->reroute('/');
     }
 
+    /**
+     * createAccount function. Allows the user to create an account
+     */
     public function createAccount()
     {
         $db = $this->_db;
@@ -308,6 +339,9 @@ class LocalDungeonController
         echo $view->render('views/createuser.html');
     }
 
+    /**
+     * registeredEvents function. Displays the events the user as register for and/or created.
+     */
     public function registeredEvents()
     {
         $db = $this->_db;
@@ -340,6 +374,9 @@ class LocalDungeonController
         }
     }
 
+    /**
+     * createEvent function. Allows the user to create an event
+     */
     public function createEvent()
     {
         //check if user is logged in.
@@ -391,6 +428,9 @@ class LocalDungeonController
         }
     }
 
+    /**
+     * account function. Checks the status of the user's login
+     */
     public function account()
     {
         //check if user is logged in.
@@ -416,7 +456,7 @@ class LocalDungeonController
         }
     }
 
-    //helper functions
+    //private helper functions
     private function addEvent($game, $user_id)
     {
         $db = $this->_db;
