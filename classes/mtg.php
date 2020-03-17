@@ -12,6 +12,19 @@
 
 class Mtg extends GenericGame
 {
+    /**
+     * Mtg constructor.
+     * @param $_eventName
+     * @param $_host
+     * @param $_date
+     * @param $_time
+     * @param $_city
+     * @param $_zip
+     * @param $_street
+     * @param string $_genre
+     * @param array $_tags
+     * @param string $_capacity
+     */
     public function __construct($_eventName, $_host, $_date, $_time, $_city, $_zip, $_street, $_genre = 'Fantasy',
                                 $_tags = array(), $_capacity = '0')
     {
