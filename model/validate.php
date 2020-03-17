@@ -2,6 +2,11 @@
 
 require_once('validate-functions.php');
 
+/**
+ * Validates a new account submission
+ *
+ * @return bool true if new account values are valid
+ */
 function validNewAccount()
 {
     global $f3;
@@ -25,6 +30,12 @@ function validNewAccount()
     return $isValid;
 }
 
+/**
+ * Checks to see if username and password combo are valid.
+ *
+ * @param $db databaseObject for verification step
+ * @return bool true if the login is valid
+ */
 function validLogin($db)
 {
     global $f3;
@@ -48,6 +59,11 @@ function validLogin($db)
     return $isValid;
 }
 
+/**
+ * Validates a password input
+ *
+ * @return bool true if valid password
+ */
 function validNewPassword()
 {
     global $f3;
