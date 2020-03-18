@@ -56,7 +56,6 @@
                 </div>
                 <div class="col-8">
                     <div class="container mb-5">
-                        <!--                    <a href="./event/0987890"><h1><u>DnD Teen Night</u> - 02/29/20</h1></a>-->
                         <div class="jumbotron">
                             <div class="container">
                                 <h1 class="display-4">{{@eventEncode}}</h1>
@@ -64,12 +63,9 @@
                             <div class="form-inline pl-3">
                                 <p class="pr-3 border-right">{{ @eventObject->getZip() }}</p>
                                 <p class="pr-3 pl-3">{{ @eventObject->getCity() }}</p>
-                                <!--                            <p class="pr-3 pl-3">Posted 2 days ago</p>-->
+                                <p class="pr-3 pl-3">{{@eventObject->getDate()}}</p>
                             </div>
                             <div class="form-inline pl-3 w-100">
-                                <!--                            <button class="btn-outline-primary rounded p-1 pr-2 mr-2">&#8226; DnD</button>-->
-                                <!--                            <button class="btn-outline-primary rounded p-1 pr-2 mr-2">&#8226; Cyberpunk</button>-->
-                                <!--                            <button class="btn-outline-primary rounded p-1 pr-2 mr-2">&#8226; Matrix</button>-->
                                 <F3:repeat group="{{ @eventObject->getTags() }}" value="{{ @tag }}">
                                     <button class="btn-outline-primary rounded p-1 pr-2 mr-2">&#8226; {{ @tag }}
                                     </button>
