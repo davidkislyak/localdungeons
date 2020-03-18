@@ -245,16 +245,16 @@ class LocalDungeonController
                 $_SESSION['eventObjectPost'] = $this->buildObject($item['game_name'], $item['event_name'],
                     'Attendee', $day, $time, $item['city'], $item['zip'],
                     $item['street'], $item['genre_name'], $tags, $item['capacity'], $item['event_description']);
-            }
-          
+            }          
             //assign event to hive
             $this->_f3->set('eventObject', $_SESSION['eventObjectPost']);
                 array_push($tags, $tag['tag_name']);
             }
+
         }
         //check if already rsvp'd
         foreach ($this->_db->getEventRsvp(
-                     $this->_db->getEventId(($_SESSION['eventObjectPost']->getEventName()))) as $user) {
+                     $this->_db->getEventId(($_SESSION['eventObjectPost']->getEventName()))[0]) as $user) {
             if ($user == $_SESSION['userId']) {
                 $this->_f3->set('rsvp', 'going');
                 $_SESSION['rsvp'] = 'going';
@@ -451,7 +451,8 @@ class LocalDungeonController
 
             $view = new Template();
             echo $view->render('views/myaccount.html');
-        } else {
+        }
+        else {
             $this->_f3->reroute('/login');
         }
     }
