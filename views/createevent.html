@@ -48,9 +48,6 @@
                             <option value="none">-- Select a Genre --</option>
                             <F3:repeat group="{{ @genres }}" value="{{ @genre }}">
                                 <option value="{{ @genre['genre_id'] }}">
-<!--                                <F3:check if="{{ @SESSION['filter'] == @genre['genre_id'] }}">-->
-<!--                                    selected="selected"-->
-<!--                                </F3:check>-->
                                 {{ @genre['genre_name'] }}</option>
                             </F3:repeat>
                         </select>
@@ -106,9 +103,6 @@
                                 <label><input type="checkbox" name="tag[]" value="{{@tag['tag_id']}}">{{@tag['tag_name']}}
                                 </label><br>
                             </repeat>
-<!--                                <label><input type="checkbox" value="43" checked> pizza</label><br>-->
-<!--                                <label><input type="checkbox" value="89" checked> drinks</label><br>-->
-<!--                                <label><input type="checkbox" value="6" checked> dnd</label><br>-->
                             </div>
                         </div>
                     </div>

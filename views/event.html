@@ -63,9 +63,7 @@
                             <div class="form-inline pl-3">
                                 <p class="pr-3 border-right">{{ @eventObject->getZip() }}</p>
                                 <p class="pr-3 pl-3">{{ @eventObject->getCity() }}</p>
-                                <p class="pr-3 pl-3">{{@eventObject->getDate()}}</p>
-
-
+                                                            <p class="pr-3 pl-3">{{@eventObject->getDate()}}</p>
                             </div>
                             <div class="form-inline pl-3 w-100">
                                 <F3:repeat group="{{ @eventObject->getTags() }}" value="{{ @tag }}">

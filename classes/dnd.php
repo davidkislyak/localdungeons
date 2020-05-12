@@ -1,14 +1,4 @@
 <?php
-/**
- * Created in PhpStorm
- * @author Brian Kiehn
- * @date 2/21/2020
- * @version 1.0
- * dnd.php
- * GreenRiverDev
- * @link
- */
-
 
 class Dnd extends GenericGame
 {
@@ -43,5 +33,4 @@ class Dnd extends GenericGame
     {
         return parent::getTags();
     }
-
 }

@@ -24,7 +24,6 @@ function validPassword($password)
         && strlen($password) > 7 && strlen($password) < 129);
 }
 
-
 /**
  * @param $db databaseObject for verification step
  * @param $username to validate

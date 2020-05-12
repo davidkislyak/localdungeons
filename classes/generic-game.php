@@ -1,14 +1,4 @@
 <?php
-/**
- * Created in PhpStorm
- * @author Brian Kiehn
- * @date 2/19/2020
- * @version 2.0
- * generic.php
- * GreenRiverDev
- * @link https://github.com/davidkislyak/localdungeons.git
- */
-
 
 class GenericGame
 {

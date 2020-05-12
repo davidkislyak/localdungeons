@@ -1,15 +1,5 @@
 <?php
-/**
- * Created in PhpStorm
- * @author Brian Kiehn
- * @date 2/28/2020
- * @version 1.0
- * database.php
- * GreenRiverDev
- * @link https://github.com/medioxumate/dating4.git
- */
-
-//require(database info root);
+//Note: require(database info root);
 
 class Database
 {
@@ -29,8 +19,10 @@ class Database
      */
     function connect()
     {
-        require_once("../../../boiconfig.php");
-//        require_once("../../connect_localdungeons.php");
+        //Brain's credentials
+//        require_once("../../../boiconfig.php");
+        //David's credentials
+        require_once("../../connect_localdungeons.php");
 
         try {
             //Instantiate a database object
@@ -43,8 +35,7 @@ class Database
         }
     }
 
-    //Insert methods
-
+    // Insert's & Queries
     /**
      * adds user to the database
      * @param $user
@@ -123,7 +114,6 @@ class Database
         $statement->bindParam(':game_id', $game_id, PDO::PARAM_INT);
         $statement->bindParam(':capacity', $capacity, PDO::PARAM_INT);
 
-
         //exe
         $statement->execute();
 
@@ -151,29 +141,6 @@ class Database
 
         $query = $statement->fetch();
         return $query['event_id'];
-    }
-
-    public function getEvent($event_id)
-    {
-        //query
-        $sql = "SELECT event.event_id, event.event_name, event_location.city, event_location.zip,
-                event_location.street, game.game_name, genres.genre_name, event.event_date, 
-                event.event_posting, event.event_description FROM event
-                    INNER JOIN game ON game.game_id = event.game_id 
-                    INNER JOIN event_location ON event_location.location_id = event.location_id 
-                    INNER JOIN genres ON genres.genre_id = event.genre_id WHERE event.event_id =:id";
-
-        //statement
-        $statement = $this->_dbh->prepare($sql);
-
-        //bind
-        $statement->bindParam(':id', $event_id, PDO::PARAM_INT);
-
-        //exe
-        $statement->execute();
-
-        //result
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -291,7 +258,8 @@ class Database
         $statement->bindParam(':event_id', $event_id, PDO::PARAM_INT);
 
         //exe
-//        return $statement->execute();
+        //TODO: Remove
+        //return $statement->execute();
         $statement->execute();
 
         $query = $statement->fetch();
@@ -320,8 +288,7 @@ class Database
         return $statement->execute();
     }
 
-    // getters/queries
-
+    // Getter & Queries
     /**
      * get an Id from a tag name
      * @param $tag
