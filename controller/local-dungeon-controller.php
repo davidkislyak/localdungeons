@@ -17,76 +17,6 @@ class LocalDungeonController
     }
 
     /**
-     * Test class used for testing logic. (not actually used in the site.)
-     */
-    public function test()
-    {
-        $db = $this->_db;
-
-        var_dump($db->fetchTagsTable());
-
-
-        echo'<br><br>';
-        //initializes the search result array
-        $searchResults = array();
-
-        $test = $db->search('Dungeons & Dragons 5E', 'Kent');
-        foreach ($test as $item) {
-
-            //get tags from the database
-            $tagArray = array();
-
-            foreach ($db->fetchTags($item['event_id']) as $tag) {
-
-                array_push($tagArray, $tag['tag_name']);
-            }
-
-            //explodes the DATETIME data gotten from the database
-            $explode = explode(" ", $item['event_date']);
-            $day = $explode[0];
-            $time = $explode[1];
-
-
-            //creates temp object
-            $object = new Dnd($item['event_name'], 'host', $day, $time, $item['city'], $item['zip'],
-                $item['street'], $item['genre_name'], $tagArray, $item['capacity']);
-            $object->setNotes($item['event_description']);
-
-            //Adds to the search results
-            array_push($searchResults, $object);
-
-        }
-        //print results
-        foreach ($searchResults as $item) {
-            echo '<br>' . $item->getEventName() . '<br>';
-            echo $item->getGameName() . '<br>';
-            echo $item->getHost() . '<br>';
-            echo $item->getDate() . '<br>';
-            echo $item->getTime() . '<br>';
-            echo $item->getCity() . '<br>';
-            echo $item->getZip() . '<br>';
-            echo $item->getStreet() . '<br>';
-            echo $item->getGenre() . '<br>';
-
-            foreach ($item->getTags() as &$tag) {
-                echo $tag . ', ';
-            }
-            echo '<br>' . $item->getNotes() . '<br>';
-            echo $item->getCapacity() . '<br><br><br><br>';
-        }
-        //DB connection
-        $db = $this->_db;
-        $view = new Template();
-
-        //Get events with search query
-        $f3 = $this->_f3;
-        $f3->set('events', ($db->search('Dungeons & Dragons 5E', 'Kent')));
-
-        //Render page
-        echo $view->render('views/testevents.html');
-    }
-
-    /**
      * Default directory.
      * Home page
      */
@@ -215,6 +145,7 @@ class LocalDungeonController
         $this->_f3->set('rsvp', null);
 
         $found = false;
+
         //find desired event object
         if($_SESSION['eventObjects'] !=null) {
             foreach ($_SESSION['eventObjects'] as $event) {
@@ -228,6 +159,7 @@ class LocalDungeonController
                 }
             }
         }
+
         if($found == false) {
             //event not found, create new event object
             $real_id = $this->_db->getEventId($event_id);
@@ -245,16 +177,16 @@ class LocalDungeonController
                 $_SESSION['eventObjectPost'] = $this->buildObject($item['game_name'], $item['event_name'],
                     'Attendee', $day, $time, $item['city'], $item['zip'],
                     $item['street'], $item['genre_name'], $tags, $item['capacity'], $item['event_description']);
-            }          
+            }
+          
             //assign event to hive
             $this->_f3->set('eventObject', $_SESSION['eventObjectPost']);
                 array_push($tags, $tag['tag_name']);
             }
 
-        }
         //check if already rsvp'd
         foreach ($this->_db->getEventRsvp(
-                     $this->_db->getEventId(($_SESSION['eventObjectPost']->getEventName()))[0]) as $user) {
+                     $this->_db->getEventId(($_SESSION['eventObjectPost']->getEventName()))) as $user) {
             if ($user == $_SESSION['userId']) {
                 $this->_f3->set('rsvp', 'going');
                 $_SESSION['rsvp'] = 'going';
@@ -350,22 +282,7 @@ class LocalDungeonController
         if (isset($_SESSION['userId'])) {
             $f3->set('events', ($db->registeredEvents($_SESSION['userId'])));
 
-//        $hostArray = array();
-//        $attendArray = array();
-//
-//        foreach ($f3->get('events') as $event){
-//            if($event['event_privilege'] == 'Host'){
-//                array_push($hostArray, $event);
-//            }
-//            else{
-//                array_push($attendArray, $event);
-//            }
-//        }
-//
-//        $f3->set('hosted', $this->buildEvents($hostArray));
-//        $f3->set('attended', $this->buildEvents($attendArray));
             $f3->set('attend', $this->buildEvents($f3->get('events')));
-
 
             echo $view->render('views/myevents.html');
         }
@@ -451,8 +368,7 @@ class LocalDungeonController
 
             $view = new Template();
             echo $view->render('views/myaccount.html');
-        }
-        else {
+        } else {
             $this->_f3->reroute('/login');
         }
     }
@@ -536,10 +452,9 @@ class LocalDungeonController
     }
 
     private function buildObject($game_name, $event_name, $privilege, $day, $time, $city, $zip, $street,
-                                 $genre_name, $tagArray, $capacity, $description){
-//        $explodeGame = explode(" ", $game_name);
-
+                                 $genre_name, $tagArray, $capacity, $description) {
         $object = '';
+
         if(strpos($game_name, 'Dungeons & Dragons')===0) {
             $object = new Dnd($event_name, $privilege, $day, $time, $city, $zip,
                 $street, $genre_name, $tagArray, $capacity);
@@ -562,32 +477,4 @@ class LocalDungeonController
         }
         return $object;
     }
-
-//    private function buildObjectFromId($id){
-////        $explodeGame = explode(" ", $game_name);
-//        $this->buildObject()
-//        $object = '';
-//        if(strpos($game_name, 'Dungeons & Dragons')===0) {
-//            $object = new Dnd($event_name, $privilege, $day, $time, $city, $zip,
-//                $street, $genre_name, $tagArray, $capacity);
-//            $object->setNotes($description);;
-//        }
-//        elseif(strpos($game_name, 'Magic the Gathering')===0) {
-//            $object = new Mtg($event_name, $privilege, $day, $time, $city, $zip,
-//                $street, $genre_name, $tagArray, $capacity);
-//            $object->setNotes($description);
-//        }
-//        elseif(strpos($game_name, 'Settlers of Catan')===0) {
-//            $object = new Soc($event_name, $privilege, $day, $time, $city, $zip,
-//                $street, $genre_name, $tagArray, $capacity);
-//            $object->setNotes($description);
-//        }
-//        elseif(strpos($game_name, 'Warhammer')===0) {
-//            $object = new Warhammer($event_name, $privilege, $day, $time, $city, $zip,
-//                $street, $genre_name, $tagArray, $capacity);
-//            $object->setNotes($description);
-//        }
-//
-//        return $object;
-//    }
 }

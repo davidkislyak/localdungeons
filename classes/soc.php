@@ -1,14 +1,4 @@
 <?php
-/**
- * Created in PhpStorm
- * @author Brian Kiehn
- * @date 2/22/2020
- * @version 1.0
- * soc.php
- * GreenRiverDev
- * @link https://github.com/davidkislyak/localdungeons.git
- */
-
 
 class Soc extends GenericGame
 {
